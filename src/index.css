@@ -1,0 +1,60 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1;
+  background-color: #f3f3f3;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  padding: 0;
+  margin: 0 !important;
+  box-sizing: border-box;
+}
+
+.nav-links {
+  flex-grow: 2;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.hide-links {
+  display: none; /* Hide links when burger menu is open */
+}
+
+.header-box {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.slick-prev,
+.slick-next {
+  background-color: #00838d; /* Set the background color to red */
+  border-radius: 50%; /* Make the arrow background circular, optional */
+  height: 40px; /* Adjust the size of the arrows */
+  width: 40px; /* Adjust the size of the arrows */
+  z-index: 1; /* Ensure the arrows are above other content */
+}
+
+.slick-prev:hover,
+.slick-next:hover {
+  background-color: #00838d; /* Darken the background on hover */
+}
+
+.slick-prev:before,
+.slick-next:before {
+  color: white; /* Change the arrow color */
+}
+
+.tooltip {
+  padding: 5px 10px;
+  background-color: #00838d;
+  border-radius: 5px;
+  color: white;
+  line-height: 1.5;
+  margin-left: 10px;
+}

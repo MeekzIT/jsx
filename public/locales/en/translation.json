@@ -1,0 +1,23 @@
+{
+  "self": "Self-service Car Washes",
+  "module": "Modules",
+  "equip": "Additional Equipment",
+  "board": "Printed Circuit Boards",
+  "constructor": "Build it Yourself",
+  "contactUs": "Contact Us",
+  "name": "Name",
+  "surname": "Surname",
+  "email": "Email",
+  "phone": "Phone",
+  "question": "Question",
+  "submit": "Submit",
+  "requiredField": "{{field}} is required",
+  "invalidEmail": "Invalid email address",
+  "invalidPhone": "Invalid phone number",
+  "contactUsDesc": "Have a question, comment, or concern? We’d love to hear from you! Fill out the form below, and our team will get back to you within 24 hours. Whether you need assistance or just want to chat, we’re here to help. Please provide your name, email, and phone number so we can get in touch, and feel free to ask anything in the 'Question' section.",
+  "workingDays": "Working Days",
+  "mondayToSaturday": "Monday-Saturday",
+  "workingHours": "Working Hours",
+  "choose": "Choose the appropriate field to continue selecting the current parameters",
+  "spare":"Spare parts"
+}
