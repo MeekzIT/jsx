@@ -120,17 +120,19 @@ interface IItem extends IIdentifiable, ITranslatableContent {
 export interface IConstuctorItemOptionItemOptions extends IItem {
   itemId: number;
   price: string;
+  showIn: boolean;
 }
 
 export interface IConstuctorOptionItems extends IItem {
   reletedId: number;
   price?: string;
-  ConstuctorItemOptionItemOptions?: IConstuctorItemOptionItemOptions;
+  ConstuctorItemOptionItemOptions: IConstuctorItemOptionItemOptions;
 }
 
 export interface IConstuctorItemOptions extends IItem {
   itemId: number;
   price: string;
+  showIn: boolean;
   ConstuctorOptionItems: IConstuctorOptionItems;
 }
 

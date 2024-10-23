@@ -1,4 +1,5 @@
 import {
+  Box,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -19,11 +20,12 @@ interface RadioBoxProps {
 }
 
 export default function RadioBox({ name, options, onChange }: RadioBoxProps) {
-  const { i18n, t } = useTranslation();
+  const { i18n } = useTranslation();
   const language = i18n.language;
+
   const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const cuurent = options.find((i) => i.id == event.target.value);
-    if (cuurent?.ConstuctorOptionItems?.length > 0) {
+    const current = options.find((i) => i.id == event.target.value);
+    if (current?.ConstuctorOptionItems?.length > 0) {
       onChange(event.target.value, true);
     } else {
       onChange(event.target.value);
@@ -45,32 +47,48 @@ export default function RadioBox({ name, options, onChange }: RadioBoxProps) {
               value={i.id}
               control={<Radio />}
               label={
-                <Tooltip
-                  title={
-                    <>
-                      <Typography>
-                        {language === "am"
-                          ? i?.descAm
-                          : language === "ru"
-                          ? i?.descRu
-                          : language === "en"
-                          ? i?.descEn
-                          : i?.descGe}
-                      </Typography>
-                    </>
-                  }
-                  arrow
-                  placement="top" // You can change this to "bottom", "left", or "right"
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    mb: 2,
+                    mt: 2,
+                    border: " 1px solid #00838D",
+                    borderRadius: "10px",
+                    p: 2,
+                    maxHeight: "300px",
+                    minWidth: "300px",
+                  }}
+                  className="ratioBox"
                 >
-                  {language === "am"
-                    ? i?.nameAm
-                    : language === "ru"
-                    ? i?.nameRu
-                    : language === "en"
-                    ? i?.nameEn
-                    : i?.nameGe}
-                  <TooltipPrice data={i.price + "" + "$"} />
-                </Tooltip>
+                  {i.image !== null && (
+                    <Box>
+                      <img
+                        src={i.image}
+                        alt={i.nameEn}
+                        style={{
+                          width: "100px",
+                          height: "100px",
+                        }}
+                      />
+                    </Box>
+                  )}
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <Typography color="#00838D" variant="h6">
+                      {language === "am"
+                        ? i?.nameAm
+                        : language === "ru"
+                        ? i?.nameRu
+                        : language === "en"
+                        ? i?.nameEn
+                        : i?.nameGe}
+                    </Typography>
+
+                    <TooltipPrice data={i.price + "" + "$"} />
+                  </Box>
+                </Box>
               }
             />
           );

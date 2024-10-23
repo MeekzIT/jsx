@@ -1,7 +1,7 @@
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1;
-  background-color: #f3f3f3;
+  background-color: #fff;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -57,4 +57,9 @@ body {
   color: white;
   line-height: 1.5;
   margin-left: 10px;
+}
+
+.ratioBox {
+  background: #ffffff;
+  box-shadow: -8px 8px 13px #848080, 8px -8px 13px #ffffff;
 }

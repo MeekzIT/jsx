@@ -23,18 +23,18 @@ const Constructor = () => {
   const language = i18n.language;
   const dispatch = useAppDispatch();
 
+  const { single, loading, error, service, priceData } = useAppSelector(
+    (state) => state.constr
+  );
   const [selectedData, setSelectedData] = useState<SelectedData>({
     variant: id,
     services: {},
   });
-
-  const [selectedImages, setSelectedImages] = useState<{
-    [key: number]: string;
-  }>({});
-
-  const { single, loading, error, service, priceData } = useAppSelector(
-    (state) => state.constr
-  );
+  const [selectedOption, setSelectedOption] = useState();
+  const [selectedImages, setSelectedImages] = useState({
+    service: {},
+    option: {},
+  });
 
   useEffect(() => {
     if (id) {
@@ -43,9 +43,38 @@ const Constructor = () => {
   }, [dispatch, id]);
 
   useEffect(() => {
+    single?.ConstuctorItems.map((s) => {
+      const item = s.ConstuctorItemOptions;
+      item.map((i) => {
+        console.log(s, "selectedOption");
+
+        if (i.showIn && !i.ConstuctorOptionItems.length) {
+          console.log(i, "item");
+          setSelectedImages((prevData) => {
+            return {
+              ...prevData,
+              service: { ...prevData.service, [s.id]: i.image },
+            };
+          });
+        }
+        if (i.showIn && i.id == selectedOption) {
+          console.log(i, "item");
+          setSelectedImages((prevData) => {
+            return {
+              ...prevData,
+              option: { ...prevData.option, [s.id]: i.image },
+            };
+          });
+        }
+      });
+    });
+  }, [single, selectedOption]);
+
+  useEffect(() => {
     if (single?.ConstuctorItems) {
       const defaultSelections: { [key: number]: number | number[] } = {};
-      single.ConstuctorItems?.forEach((item: IConstuctorItems) => {
+
+      single?.ConstuctorItems?.forEach((item: IConstuctorItems) => {
         if (item.require && item.ConstuctorItemOptions.length > 0) {
           defaultSelections[item.id] = item.ConstuctorItemOptions[0].id;
         }
@@ -61,6 +90,7 @@ const Constructor = () => {
   useEffect(() => {
     if (service?.ConstuctorOptionItems) {
       const defaultServiceSelections: { [key: number]: number | number[] } = {};
+
       service.ConstuctorOptionItems.forEach((item: IConstuctorOptionItems) => {
         if (item.require && item?.ConstuctorItemOptionItemOptions?.length > 0) {
           defaultServiceSelections[item.id] =
@@ -88,11 +118,16 @@ const Constructor = () => {
           (i) => i.ConstuctorOptionItems.length > 0
         );
         if (itemWithOptions) {
+          setSelectedOption(itemWithOptions.id);
           dispatch(fetchSingleService(String(itemWithOptions.id)));
         }
       });
     }
   }, [dispatch, single, service]);
+
+  useEffect(() => {
+    dispatch(getDataPrice(selectedData));
+  }, [dispatch, selectedData]);
 
   const handleSelectionChange = (
     key: number,
@@ -101,22 +136,12 @@ const Constructor = () => {
   ) => {
     if (hasItems) {
       dispatch(fetchSingleService(String(value)));
+      setSelectedOption(value);
     }
     setSelectedData((prevState) => ({
       ...prevState,
       [key]: value,
     }));
-
-    // Update selected images based on the new value
-    const selectedOption = single.ConstuctorItems.find(
-      (item) => item.id === key
-    )?.ConstuctorItemOptions.find((option) => option.id === value);
-    if (selectedOption) {
-      setSelectedImages((prevState) => ({
-        ...prevState,
-        [key]: selectedOption.image, // assuming the options have an image property
-      }));
-    }
   };
 
   const handleSelectionServiceChange = (
@@ -130,17 +155,6 @@ const Constructor = () => {
         [key]: value,
       },
     }));
-
-    // Update selected images for services
-    const selectedServiceOption = service?.ConstuctorOptionItems.find(
-      (item) => item.id === key
-    )?.ConstuctorItemOptionItemOptions.find((option) => option.id === value);
-    if (selectedServiceOption) {
-      setSelectedImages((prevState) => ({
-        ...prevState,
-        [key]: selectedServiceOption.image, // assuming the options have an image property
-      }));
-    }
   };
 
   const handleSubmit = () => {
@@ -149,7 +163,11 @@ const Constructor = () => {
 
   if (loading) return <Loading />;
   if (error) return <div>Error: {error}</div>;
-  console.log(selectedImages, "ll");
+  console.log(
+    selectedImages,
+    Object.values(selectedImages.option),
+    "selectedImages"
+  );
 
   return (
     <Box
@@ -180,21 +198,87 @@ const Constructor = () => {
             justifyContent: "center",
           }}
         >
-          <img src={single?.image} alt="image" />
+          <img src={single?.image} alt="Main image" />
+          {Object.values(selectedImages?.service)?.map((i) => {
+            return <img src={i} alt="Main image" />;
+          })}
+          {Object.values(selectedImages?.option)?.map((i) => {
+            return <img src={i} alt="Main image" />;
+          })}
         </Box>
 
-        {/* Displaying selected images */}
-        <Box sx={{ mt: 2 }}>
-          {Object.entries(selectedImages).map(([key, imageUrl]) => (
-            <Box key={key}>
-              <img
-                src={imageUrl}
-                alt={`Option for ${key}`}
-                style={{ width: "100px", height: "auto", margin: "5px" }}
-              />
-            </Box>
-          ))}
-        </Box>
+        {/* {priceData ? (
+          <Box>
+            {priceData.items?.map((i) => (
+              <Box key={i.item?.id}>
+                <Typography variant="h6" sx={{ color: "#00838D" }} gutterBottom>
+                  {language === "am"
+                    ? i.item?.nameAm
+                    : language === "ru"
+                    ? i.item?.nameRu
+                    : language === "en"
+                    ? i.item?.nameEn
+                    : i.item?.nameGe}
+                </Typography>
+                {Array.isArray(i.options)
+                  ? i.options.map((o) => (
+                      <Typography key={o.id}>
+                        {language === "am"
+                          ? o.nameAm
+                          : language === "ru"
+                          ? o?.nameRu
+                          : language === "en"
+                          ? o?.nameEn
+                          : o?.nameGe}
+                      </Typography>
+                    ))
+                  : language === "am"
+                  ? i.options?.nameAm
+                  : language === "ru"
+                  ? i.options?.nameRu
+                  : language === "en"
+                  ? i.options?.nameEn
+                  : i.options?.nameGe}
+              </Box>
+            ))}
+            {priceData.services?.map((i) => (
+              <Box key={i.service?.id}>
+                <Typography variant="h6" sx={{ color: "#00838D" }} gutterBottom>
+                  {language === "am"
+                    ? i.service?.nameAm
+                    : language === "ru"
+                    ? i.service?.nameRu
+                    : language === "en"
+                    ? i.service?.nameEn
+                    : i.service?.nameGe}
+                </Typography>
+                {Array.isArray(i.options)
+                  ? i.options.map((o) => (
+                      <Typography key={o.id}>
+                        {language === "am"
+                          ? o.nameAm
+                          : language === "ru"
+                          ? o?.nameRu
+                          : language === "en"
+                          ? o?.nameEn
+                          : o?.nameGe}
+                      </Typography>
+                    ))
+                  : language === "am"
+                  ? i.options?.nameAm
+                  : language === "ru"
+                  ? i.options?.nameRu
+                  : language === "en"
+                  ? i.options?.nameEn
+                  : i.options?.nameGe}
+              </Box>
+            ))}
+             <hr />
+            <Typography variant="h5" sx={{ color: "#00838D" }}>
+              {priceData.price} $
+            </Typography>
+          </Box>
+        ) : null} */}
       </Grid>
 
       <Grid
@@ -285,7 +369,7 @@ const Constructor = () => {
                         ? i?.nameEn
                         : i?.nameGe
                     }
-                    value={selectedData.services[i.id]} // Set default value for services
+                    value={selectedData.services[i.id]} // Set default value
                     onChange={(value) =>
                       handleSelectionServiceChange(i.id, value)
                     }
