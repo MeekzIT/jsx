@@ -16,10 +16,12 @@ import {
 } from "../store/types";
 import RadioBox from "../components/radio/Radio";
 import CheckboxBox from "../components/checkbox/Checkbox";
+import { SimpleDialog } from "../components/dialog/Dialog";
+import Submit from "../components/submit/Submit";
 
 const Constructor = () => {
   const { id } = useParams<{ id: string }>();
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const language = i18n.language;
   const dispatch = useAppDispatch();
 
@@ -31,6 +33,8 @@ const Constructor = () => {
     services: {},
   });
   const [selectedOption, setSelectedOption] = useState();
+  const [open, setOpen] = useState<boolean>(false);
+  const [openNitify, setOpenNitify] = useState(false);
   const [selectedImages, setSelectedImages] = useState({
     service: {},
     option: {},
@@ -158,7 +162,13 @@ const Constructor = () => {
   };
 
   const handleSubmit = () => {
+    console.log(selectedData, "selectedData");
     dispatch(getDataPrice(selectedData));
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   if (loading) return <Loading />;
@@ -192,7 +202,6 @@ const Constructor = () => {
       >
         <Box
           sx={{
-            height: "60%",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -206,79 +215,6 @@ const Constructor = () => {
             return <img src={i} alt="Main image" />;
           })}
         </Box>
-
-        {/* {priceData ? (
-          <Box>
-            {priceData.items?.map((i) => (
-              <Box key={i.item?.id}>
-                <Typography variant="h6" sx={{ color: "#00838D" }} gutterBottom>
-                  {language === "am"
-                    ? i.item?.nameAm
-                    : language === "ru"
-                    ? i.item?.nameRu
-                    : language === "en"
-                    ? i.item?.nameEn
-                    : i.item?.nameGe}
-                </Typography>
-                {Array.isArray(i.options)
-                  ? i.options.map((o) => (
-                      <Typography key={o.id}>
-                        {language === "am"
-                          ? o.nameAm
-                          : language === "ru"
-                          ? o?.nameRu
-                          : language === "en"
-                          ? o?.nameEn
-                          : o?.nameGe}
-                      </Typography>
-                    ))
-                  : language === "am"
-                  ? i.options?.nameAm
-                  : language === "ru"
-                  ? i.options?.nameRu
-                  : language === "en"
-                  ? i.options?.nameEn
-                  : i.options?.nameGe}
-              </Box>
-            ))}
-            {priceData.services?.map((i) => (
-              <Box key={i.service?.id}>
-                <Typography variant="h6" sx={{ color: "#00838D" }} gutterBottom>
-                  {language === "am"
-                    ? i.service?.nameAm
-                    : language === "ru"
-                    ? i.service?.nameRu
-                    : language === "en"
-                    ? i.service?.nameEn
-                    : i.service?.nameGe}
-                </Typography>
-                {Array.isArray(i.options)
-                  ? i.options.map((o) => (
-                      <Typography key={o.id}>
-                        {language === "am"
-                          ? o.nameAm
-                          : language === "ru"
-                          ? o?.nameRu
-                          : language === "en"
-                          ? o?.nameEn
-                          : o?.nameGe}
-                      </Typography>
-                    ))
-                  : language === "am"
-                  ? i.options?.nameAm
-                  : language === "ru"
-                  ? i.options?.nameRu
-                  : language === "en"
-                  ? i.options?.nameEn
-                  : i.options?.nameGe}
-              </Box>
-            ))}
-             <hr />
-            <Typography variant="h5" sx={{ color: "#00838D" }}>
-              {priceData.price} $
-            </Typography>
-          </Box>
-        ) : null} */}
       </Grid>
 
       <Grid
@@ -417,11 +353,38 @@ const Constructor = () => {
               sx={{ mt: 3, ml: 3 }}
               onClick={handleSubmit}
             >
-              Submit
+              {t("submit")}
             </Button>
           </Box>
         </Box>
       </Grid>
+      <SimpleDialog open={open} onClose={handleClose}>
+        <Box sx={{ p: 2 }}>
+          <Typography variant="h4" sx={{ color: "#00838D", mb: 2 }}>
+            {language === "am"
+              ? single?.nameAm
+              : language === "ru"
+              ? single?.nameRu
+              : language === "en"
+              ? single?.nameEn
+              : single?.nameGe}
+          </Typography>
+          <Submit
+            data={priceData}
+            onSubmitOrder={() => {
+              handleClose();
+              setOpenNitify(true);
+            }}
+          />
+        </Box>
+      </SimpleDialog>
+      <SimpleDialog open={openNitify} onClose={() => setOpenNitify(false)}>
+        <Box sx={{ p: 2 }}>
+          <Typography variant="h3" sx={{ color: "#00838D" }}>
+            {t("orderResponse")}
+          </Typography>
+        </Box>
+      </SimpleDialog>
     </Box>
   );
 };

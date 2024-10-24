@@ -19,5 +19,8 @@
   "mondayToSaturday": "Monday-Saturday",
   "workingHours": "Working Hours",
   "choose": "Choose the appropriate field to continue selecting the current parameters",
-  "spare":"Spare parts"
+  "spare": "Spare parts",
+  "contactUsResponse": "We have received your question/comment/problem, we will contact you within 24 hours !",
+  "config": "Your configuration",
+  "orderResponse": "We received your order, we will contact you within 24 hours!"
 }

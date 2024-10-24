@@ -6,10 +6,13 @@ import PhoneIcon from "@mui/icons-material/Phone";
 import EmailIcon from "@mui/icons-material/Email";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import axios from "axios";
+import { backUrl } from "../store/keys";
+import { SimpleDialog } from "../components/dialog/Dialog";
 
 type FormValues = {
-  name: string;
-  surname: string;
+  firstName: string;
+  lastName: string;
   email: string;
   phone: string;
   question: string;
@@ -17,6 +20,15 @@ type FormValues = {
 
 const ContactUs: React.FC = () => {
   const { t } = useTranslation();
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const {
     register,
@@ -25,7 +37,15 @@ const ContactUs: React.FC = () => {
   } = useForm<FormValues>();
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log(data);
+    axios
+      .post(`${backUrl}/question`, data)
+      .then(function (response) {
+        console.log(response);
+        handleClickOpen();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   return (
@@ -83,22 +103,22 @@ const ContactUs: React.FC = () => {
             <TextField
               fullWidth
               label={t("name")}
-              {...register("name", {
+              {...register("firstName", {
                 required: t("requiredField", { field: t("name") }),
               })}
-              error={!!errors.name}
-              helperText={errors.name?.message}
+              error={!!errors.firstName}
+              helperText={errors.name?.firstName}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
               label={t("surname")}
-              {...register("surname", {
+              {...register("lastName", {
                 required: t("requiredField", { field: t("surname") }),
               })}
-              error={!!errors.surname}
-              helperText={errors.surname?.message}
+              error={!!errors.lastName}
+              helperText={errors.lastName?.message}
             />
           </Grid>
           <Grid item xs={12}>
@@ -124,10 +144,10 @@ const ContactUs: React.FC = () => {
               type="tel"
               {...register("phone", {
                 required: t("requiredField", { field: t("phone") }),
-                pattern: {
-                  value: /^\d{10,15}$/,
-                  message: t("invalidPhone"),
-                },
+                // pattern: {
+                //   value: /^\d{10,15}$/,
+                //   message: t("invalidPhone"),
+                // },
               })}
               error={!!errors.phone}
               helperText={errors.phone?.message}
@@ -153,6 +173,13 @@ const ContactUs: React.FC = () => {
           </Grid>
         </Grid>
       </form>
+      <SimpleDialog open={open} onClose={handleClose}>
+        <Box sx={{ p: 2 }}>
+          <Typography variant="h3" sx={{ color: "#00838D" }}>
+            {t("contactUsResponse")}
+          </Typography>
+        </Box>
+      </SimpleDialog>
     </Box>
   );
 };

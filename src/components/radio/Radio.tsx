@@ -34,7 +34,11 @@ export default function RadioBox({ name, options, onChange }: RadioBoxProps) {
 
   return (
     <FormControl sx={{ ml: 3 }}>
-      <FormLabel>{name}</FormLabel>
+      <FormLabel sx={{ ml: 3 }}>
+        <Typography variant="h5" color="#00838D">
+          {name}
+        </Typography>
+      </FormLabel>
       <RadioGroup
         defaultValue={options.length && options[0].id}
         name="radio-buttons-group"

@@ -52,7 +52,11 @@ export default function CheckboxBox({
 
   return (
     <FormControl sx={{ ml: 3 }} component="fieldset" variant="standard">
-      <FormLabel component="legend">{name}</FormLabel>
+      <FormLabel sx={{ ml: 3 }}>
+        <Typography variant="h5" color="#00838D">
+          {name}
+        </Typography>
+      </FormLabel>
       <FormGroup>
         {options.map((i) => {
           return (

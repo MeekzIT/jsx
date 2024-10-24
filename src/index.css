@@ -63,3 +63,7 @@ body {
   background: #ffffff;
   box-shadow: -8px 8px 13px #848080, 8px -8px 13px #ffffff;
 }
+
+.MuiDialog-paper {
+  max-width: 900px !important;
+}
