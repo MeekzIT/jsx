@@ -20,6 +20,13 @@ import LanguageSwitcher from "../../components/languageSwitcher/LanguageSwitcher
 import { useTranslation } from "react-i18next";
 import ConstructorHeader from "../../components/header-components/Constructor";
 import SpareHeader from "../../components/header-components/Spare";
+import {
+  CONSTRUCTOR_MOBILE,
+  EQUIP_MOBILE,
+  MODULE_MOBILE,
+  SELF_MOBILE,
+  SPARE_MOBILE,
+} from "../../assets/paths";
 
 const Header: React.FC = () => {
   const { t } = useTranslation();
@@ -33,22 +40,31 @@ const Header: React.FC = () => {
       name: t("self"),
       content: <SelfHeader />,
       show: true,
+      mobilePath: SELF_MOBILE,
     },
-    { name: t("module"), content: <ModuleHeader />, show: true },
+    {
+      name: t("module"),
+      content: <ModuleHeader />,
+      show: true,
+      mobilePath: MODULE_MOBILE,
+    },
     {
       name: t("equip"),
       content: <EquipmentHeader />,
       show: true,
+      mobilePath: EQUIP_MOBILE,
     },
     { name: t("board"), content: <BoardHeader />, show: true },
     {
       name: t("spare"),
       content: <SpareHeader />,
+      mobilePath: SPARE_MOBILE,
       show: true,
     },
     {
       name: t("constructor"),
       content: <ConstructorHeader />,
+      mobilePath: CONSTRUCTOR_MOBILE,
       show: true,
     },
     {
@@ -162,8 +178,70 @@ const Header: React.FC = () => {
       onClose={() => setBurgerOpen(false)}
       variant="persistent"
     >
-      <Box sx={{ padding: 2 }} onMouseLeave={() => setBurgerOpen(false)}>
-        asdasd
+      <Box sx={{ padding: 2 }} onMouseLeave={handleCloseDrawer}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            mb: 2,
+            flexDirection: "column",
+          }}
+        >
+          <Link
+            to="/"
+            style={{
+              textDecoration: "none",
+              color: "inherit",
+              marginRight: "16px",
+            }}
+          >
+            <img src={logo} alt="logo" width={110} height={80} />
+          </Link>
+
+          <Box
+            sx={{
+              display: "flex",
+              flexGrow: 1,
+              justifyContent: "center",
+              flexDirection: "column",
+              gap: 2,
+              color: "#00838D",
+            }}
+          >
+            {pages.map((page, index) => (
+              <Button
+                key={index}
+                href={page.link ? page.link : page.mobilePath}
+                color="inherit"
+              >
+                {page.show ? (
+                  page.name
+                ) : (
+                  <a
+                    href={page.href}
+                    target="_blank"
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                    {page.name}
+                  </a>
+                )}
+              </Button>
+            ))}
+          </Box>
+
+          <Button color="inherit" sx={{ marginLeft: "16px", color: "#00838D" }}>
+            <Link
+              to="/contact-us"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              {t("contactUs")}
+            </Link>
+          </Button>
+          <LanguageSwitcher />
+        </Box>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
+          {typeof drawerContent === "string" ? drawerContent : drawerContent}
+        </Typography>
       </Box>
     </Drawer>
   );
@@ -216,8 +294,8 @@ const Header: React.FC = () => {
           >
             {t("contactUs")}
           </Link>
+          <LanguageSwitcher />
         </Button>
-        <LanguageSwitcher />
 
         <IconButton
           edge="end"

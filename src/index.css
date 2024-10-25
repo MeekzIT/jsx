@@ -26,9 +26,21 @@ body {
 }
 
 .header-box {
+  width: 100%;
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
+}
+
+@media only screen and (max-width: 600px) {
+  .header-box {
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+  }
 }
 
 .slick-prev,
