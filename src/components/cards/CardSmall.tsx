@@ -21,11 +21,11 @@ export default function CardSmall({ data, image, href }: ICardSmall) {
   const navigate = useNavigate();
   const language = i18n.language;
   console.log();
-  
+
   return (
     <Card sx={{ width: 300 }} onClick={() => navigate(href + data.id)}>
       <CardMedia
-        sx={{ height: 100 }}
+        sx={{ height: 100, display: "block" }}
         image={image.image}
         title="green iguana"
       />
