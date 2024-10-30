@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { useParams } from "react-router-dom";
 import {
+  fetchCurrency,
   fetchSingle,
   fetchSingleService,
   getDataPrice,
@@ -43,6 +44,7 @@ const Constructor = () => {
   useEffect(() => {
     if (id) {
       dispatch(fetchSingle(id));
+      dispatch(fetchCurrency());
     }
   }, [dispatch, id]);
 

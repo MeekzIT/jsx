@@ -153,3 +153,10 @@ export interface SelectedData {
   [key: number]: number | number[];
   services: { [key: number]: number | number[] };
 }
+
+export interface Currency {
+  AMD: number;
+  RUB: number;
+  EUR: number;
+  USD: number;
+}

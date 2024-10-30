@@ -90,7 +90,7 @@ export default function RadioBox({ name, options, onChange }: RadioBoxProps) {
                         : i?.nameGe}
                     </Typography>
 
-                    <TooltipPrice data={i.price + "" + "$"} />
+                    <TooltipPrice data={i.price} />
                   </Box>
                 </Box>
               }

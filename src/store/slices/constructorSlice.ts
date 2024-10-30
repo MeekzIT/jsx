@@ -1,6 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { IConstructor, IConstuctorItemOptions, SelectedData } from "../types";
+import {
+  Currency,
+  IConstructor,
+  IConstuctorItemOptions,
+  SelectedData,
+} from "../types";
 import { backUrl } from "../keys";
 
 interface ModuleState {
@@ -8,6 +13,7 @@ interface ModuleState {
   single: IConstructor | null;
   priceData: any;
   service: IConstuctorItemOptions | null;
+  currency: Currency | null;
   loading: boolean;
   error: string | null;
 }
@@ -41,6 +47,20 @@ export const fetchSingle = createAsyncThunk<IConstructor, string>(
     });
     if (response.data.succes) {
       return response.data.data;
+    } else {
+      throw new Error("Failed to fetch single service");
+    }
+  }
+);
+
+export const fetchCurrency = createAsyncThunk<Currency, string>(
+  "constr/fetchCurrency",
+  async () => {
+    const response = await axios.get(
+      "https://new.yerevanhouse.net/api/currency"
+    );
+    if (response) {
+      return response.data;
     } else {
       throw new Error("Failed to fetch single service");
     }
@@ -99,6 +119,9 @@ const constructorSlice = createSlice({
       })
       .addCase(getDataPrice.fulfilled, (state, action) => {
         state.priceData = action.payload;
+      })
+      .addCase(fetchCurrency.fulfilled, (state, action) => {
+        state.currency = action.payload;
       });
   },
 });

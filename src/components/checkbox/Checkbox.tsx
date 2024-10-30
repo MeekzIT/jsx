@@ -5,14 +5,12 @@ import {
   FormControlLabel,
   FormGroup,
   FormLabel,
-  Tooltip,
   Typography,
 } from "@mui/material";
 import { ChangeEvent, ReactNode, useState } from "react";
 import { IConstuctorItemOptions } from "../../store/types";
 import { useTranslation } from "react-i18next";
 import TooltipPrice from "../tooltip/Tooltip";
-// import Tooltip from "../tooltip/Tooltip";
 
 interface CheckboxBoxProps {
   name: string | ReactNode;
@@ -27,7 +25,6 @@ export default function CheckboxBox({
 }: CheckboxBoxProps) {
   const { i18n } = useTranslation();
   const language = i18n.language;
-
   // State to keep track of selected checkbox values
   const [selectedValues, setSelectedValues] = useState<number[]>([]);
 
@@ -109,7 +106,7 @@ export default function CheckboxBox({
                         : i?.nameGe}
                     </Typography>
 
-                    <TooltipPrice data={i.price + "" + "$"} />
+                    <TooltipPrice data={i.price} />
                   </Box>
                 </Box>
               }

@@ -20,7 +20,8 @@ export default function CardSmall({ data, image, href }: ICardSmall) {
   const { i18n } = useTranslation();
   const navigate = useNavigate();
   const language = i18n.language;
-
+  console.log();
+  
   return (
     <Card sx={{ width: 300 }} onClick={() => navigate(href + data.id)}>
       <CardMedia
