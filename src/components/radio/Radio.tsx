@@ -62,8 +62,8 @@ export default function RadioBox({ name, options, onChange }: RadioBoxProps) {
                     border: " 1px solid #00838D",
                     borderRadius: "10px",
                     p: 2,
-                    maxHeight: "300px",
-                    minWidth: "300px",
+                    // maxHeight: "300px",
+                    // minWidth: "300px",
                   }}
                   className="ratioBox"
                 >

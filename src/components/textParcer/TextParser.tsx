@@ -40,7 +40,7 @@ export default function TextParcer({ data }: IParcer) {
     <Slate editor={editor} initialValue={data}>
       <div
         className="editor-wrapper"
-        style={{ background: "#f3f3f3", padding: "20px" }}
+        style={{ background: "#fff", padding: "20px 0" }}
       >
         <Editable
           readOnly

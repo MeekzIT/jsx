@@ -36,8 +36,8 @@ const Constructor = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [openNitify, setOpenNitify] = useState(false);
   const [selectedImages, setSelectedImages] = useState({
-    service: {},
-    option: {},
+    service: [],
+    option: [],
   });
 
   useEffect(() => {
@@ -53,11 +53,13 @@ const Constructor = () => {
         console.log(s, "selectedOption");
 
         if (i.showIn && !i.ConstuctorOptionItems.length) {
-          console.log(i, "item");
           setSelectedImages((prevData) => {
             return {
               ...prevData,
-              service: { ...prevData.service, [s.id]: i.image },
+              service: [
+                ...prevData.service,
+                { image: i.image, width: i.width, height: i.height },
+              ],
             };
           });
         }
@@ -66,7 +68,10 @@ const Constructor = () => {
           setSelectedImages((prevData) => {
             return {
               ...prevData,
-              option: { ...prevData.option, [s.id]: i.image },
+              option: [
+                ...prevData.service,
+                { image: i.image, width: i.width, height: i.height },
+              ],
             };
           });
         }
@@ -173,31 +178,30 @@ const Constructor = () => {
 
   if (loading) return <Loading />;
   if (error) return <div>Error: {error}</div>;
-  console.log(
-    selectedImages,
-    Object.values(selectedImages.option),
-    "selectedImages"
-  );
 
   return (
     <Box
       sx={{
-        height: "calc(100vh - 200px)",
+        height: { xs: "calc(100vh - 300px)", md: "calc(100vh - 200px)" },
         display: "flex",
-        overflow: "hidden",
+        overflow: { xs: "hidden", md: "hidden" },
+        flexDirection: { xs: "column", md: "row" },
       }}
     >
-      <Grid
+      <Box
         item
         xs={12}
+        sm={6}
         sx={{
           padding: "20px",
-          flexBasis: "60%",
+          width: { xs: "100%", md: "60%" },
+          height: { xs: "60%", md: "100%" },
           overflow: "hidden",
           backgroundColor: "#fff",
           display: "flex",
           justifyContent: "space-between",
           flexDirection: "column",
+          // position: { xs: "fixed", md: "static" },
         }}
       >
         <Box
@@ -205,30 +209,58 @@ const Constructor = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            height: "100%",
           }}
         >
-          <img src={single?.image} alt="Main image" />
-          {Object.values(selectedImages?.service)?.map((i) => {
-            return <img src={i} alt="Main image" />;
+          <img
+            src={single?.image}
+            alt="Main image"
+            width={single?.width}
+            height={single?.height}
+          />
+          {selectedImages?.service?.map((i) => {
+            console.log(i, "111");
+            if (i) {
+              return (
+                <img
+                  src={i.image}
+                  alt="Main image"
+                  width={i?.width}
+                  height={i?.height}
+                />
+              );
+            }
           })}
-          {Object.values(selectedImages?.option)?.map((i) => {
-            return <img src={i} alt="Main image" />;
+          {selectedImages?.option?.map((i) => {
+            if (i) {
+              return (
+                <img
+                  src={i.image}
+                  alt="Main image"
+                  width={i?.width}
+                  height={i?.height}
+                />
+              );
+            }
           })}
         </Box>
-      </Grid>
-
-      <Grid
+      </Box>
+      <Box
         item
-        xs={12}
+        xs={6}
+        sm={6}
+        md={6}
         sx={{
-          flexBasis: "40%",
-          padding: "20px",
+          width: { xs: "100%", md: "40%" },
+          height: { xs: "70%", md: "100%" },
+          top: { xs: "100vh", md: "0" },
+          padding: { xs: "0", md: "20px" },
           backgroundColor: "#fff",
           display: "flex",
           flexDirection: "column",
         }}
       >
-        <Typography variant="h5">
+        <Typography variant={"h5"}>
           {language === "am"
             ? single?.nameAm
             : language === "ru"
@@ -240,12 +272,13 @@ const Constructor = () => {
 
         <Box
           sx={{
-            flexGrow: 1,
+            // flexGrow: 1,
             display: "flex",
             flexDirection: "column",
+            height: "100%",
             gap: "20px",
             overflowY: "auto",
-            paddingRight: "10px",
+            // paddingRight: "10px",
           }}
         >
           {single?.ConstuctorItems &&
@@ -334,12 +367,11 @@ const Constructor = () => {
         </Box>
         <Box
           sx={{
-            pl: 3,
-            pr: 3,
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between",
+            justifyContent: "space-around",
             borderTop: "1px solid #00838D",
+            padding: "20px 0",
           }}
         >
           <Box>
@@ -348,16 +380,12 @@ const Constructor = () => {
             </Typography>
           </Box>
           <Box>
-            <Button
-              variant="contained"
-              sx={{ mt: 3, ml: 3 }}
-              onClick={handleSubmit}
-            >
+            <Button variant="contained" sx={{ ml: 3 }} onClick={handleSubmit}>
               {t("submit")}
             </Button>
           </Box>
         </Box>
-      </Grid>
+      </Box>
       <SimpleDialog open={open} onClose={handleClose}>
         <Box sx={{ p: 2 }}>
           <Typography variant="h4" sx={{ color: "#00838D", mb: 2 }}>

@@ -143,6 +143,8 @@ export interface IConstuctorItems extends IItem {
 
 export interface IConstructor extends ITranslatableContent {
   image: string;
+  width: string;
+  height: string;
   ConstuctorItems: IConstuctorItems;
 }
 

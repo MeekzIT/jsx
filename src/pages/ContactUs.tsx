@@ -67,9 +67,9 @@ const ContactUs: React.FC = () => {
         {t("contactUs")}
       </Typography>
       <Typography>{t("contactUsDesc")}</Typography>
-      <Grid container spacing={4} sx={{ margin: "10px 0" }}>
+      <Grid spacing={4} sx={{ margin: "10px 0" }} gap={2}>
         <Grid item xs={12} md={6}>
-          <Box display="flex" alignItems="center">
+          <Box display="flex" alignItems="center" sx={{ mt: 2 }}>
             <AccessTimeIcon sx={{ marginRight: "10px", color: "#00838D" }} />
             <Typography>
               {t("workingDays")} : {t("mondayToSaturday")}. {t("workingHours")}{" "}
@@ -77,19 +77,19 @@ const ContactUs: React.FC = () => {
             </Typography>
           </Box>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={6} sx={{ mt: 2 }}>
           <Box display="flex" alignItems="center">
             <PhoneIcon sx={{ marginRight: "10px", color: "#00838D" }} />
             <Typography>+374 77-14-54-04, +374 98-76-97-60</Typography>
           </Box>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={6} sx={{ mt: 2 }}>
           <Box display="flex" alignItems="center">
             <EmailIcon sx={{ marginRight: "10px", color: "#00838D" }} />
             <Typography>Email: info@jsxmachines.com</Typography>
           </Box>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={6} sx={{ mt: 2 }}>
           <Box display="flex" alignItems="center">
             <LocationOnIcon sx={{ marginRight: "10px", color: "#00838D" }} />
             <Typography>Алек Манукян 11/1, Армения, Ереван</Typography>

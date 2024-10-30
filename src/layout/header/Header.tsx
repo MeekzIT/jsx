@@ -7,6 +7,7 @@ import {
   Button,
   Drawer,
   Box,
+  Fade,
 } from "@mui/material";
 import logo from "./jsx.png";
 import drowerLogo from "./Whts Up.jpg";
@@ -30,7 +31,7 @@ import {
 
 const Header: React.FC = () => {
   const { t } = useTranslation();
-
+  const [activePage, setActivePage] = useState(SELF_MOBILE);
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [burgerOpen, setBurgerOpen] = useState<boolean>(false);
   const [drawerContent, setDrawerContent] = useState<string>("");
@@ -95,6 +96,7 @@ const Header: React.FC = () => {
     setDrawerOpen(false);
     setDrawerContent("");
   };
+  console.log(activePage, "---");
 
   const renderDrawer = (
     <Drawer
@@ -137,7 +139,10 @@ const Header: React.FC = () => {
                 key={index}
                 href={page.link ? page.link : undefined}
                 color="inherit"
-                onMouseEnter={() => handleMouseEnter(page.content)}
+                onMouseEnter={() => {
+                  handleMouseEnter(page.content);
+                  setActivePage(page.show);
+                }}
               >
                 {page.show ? (
                   page.name
@@ -164,9 +169,12 @@ const Header: React.FC = () => {
           </Button>
           <LanguageSwitcher />
         </Box>
-        <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {typeof drawerContent === "string" ? drawerContent : drawerContent}
-        </Typography>
+
+        <Fade in={drawerOpen} timeout={3000}>
+          <Typography variant="body1" sx={{ textAlign: "center" }}>
+            {drawerContent}
+          </Typography>
+        </Fade>
       </Box>
     </Drawer>
   );
@@ -182,8 +190,8 @@ const Header: React.FC = () => {
         <Box
           sx={{
             display: "flex",
-            alignItems: "center",
             mb: 2,
+            alignItems: "flex-start",
             flexDirection: "column",
           }}
         >
@@ -202,10 +210,11 @@ const Header: React.FC = () => {
             sx={{
               display: "flex",
               flexGrow: 1,
-              justifyContent: "center",
               flexDirection: "column",
+              alignItems: "flex-start",
               gap: 2,
               color: "#00838D",
+              mt: 2,
             }}
           >
             {pages.map((page, index) => (
@@ -229,13 +238,14 @@ const Header: React.FC = () => {
             ))}
           </Box>
 
-          <Button color="inherit" sx={{ marginLeft: "16px", color: "#00838D" }}>
+          <Button color="inherit" sx={{ color: "#00838D" }}>
             <Link
               to="/contact-us"
               style={{ textDecoration: "none", color: "inherit" }}
             >
               {t("contactUs")}
             </Link>
+            ``
           </Button>
           <LanguageSwitcher />
         </Box>
