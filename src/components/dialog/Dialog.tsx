@@ -20,10 +20,8 @@ export function SimpleDialog(props: SimpleDialogProps) {
     <Dialog onClose={handleClose} open={open} sx={{ p: 2 }}>
       <Box
         sx={{
-          // width: "100%",
           display: "flex",
           justifyContent: "flex-end",
-          // width: "900px",
         }}
       >
         <CloseIcon

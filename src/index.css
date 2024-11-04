@@ -79,3 +79,37 @@ body {
 .MuiDialog-paper {
   max-width: 900px !important;
 }
+.animated-outline {
+  position: relative;
+  z-index: 1;
+}
+
+.vide-preview {
+  width: 100%;
+}
+
+@media only screen and (max-width: 600px) {
+  .vide-preview {
+    width: 320px;
+  }
+}
+
+/* App.css */
+.fade-enter {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+.fade-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+.fade-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+.fade-exit-active {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 300ms, transform 300ms;
+}

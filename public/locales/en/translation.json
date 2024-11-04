@@ -22,5 +22,6 @@
   "spare": "Spare parts",
   "contactUsResponse": "We have received your question/comment/problem, we will contact you within 24 hours !",
   "config": "Your configuration",
-  "orderResponse": "We received your order, we will contact you within 24 hours!"
+  "orderResponse": "We received your order, we will contact you within 24 hours!",
+  "gallery":"Gallery"
 }

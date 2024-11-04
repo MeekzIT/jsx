@@ -160,3 +160,24 @@ export interface Currency {
   EUR: number;
   USD: number;
 }
+
+export interface About {
+  titleAm: string;
+  titileRu: string;
+  titileEn: string;
+  titleGe: string;
+  textAm: string;
+  textRu: string;
+  textEn: string;
+  textGe: string;
+  image: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IGallery {
+  id: number;
+  image: string;
+  createdAt: string;
+  updatedAt: string;
+}

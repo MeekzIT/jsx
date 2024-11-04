@@ -4,3 +4,4 @@ export const EQUIP_MOBILE = "/equipment";
 export const BOARD_MOBILE = "/board";
 export const SPARE_MOBILE = "/spare";
 export const CONSTRUCTOR_MOBILE = "/constuctor";
+export const GALLERY_PAGE = "/gallery";

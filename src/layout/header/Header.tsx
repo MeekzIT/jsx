@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, lazy, Suspense } from "react";
 import {
   AppBar,
   Toolbar,
@@ -13,21 +13,40 @@ import logo from "./jsx.png";
 import drowerLogo from "./Whts Up.jpg";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
-import SelfHeader from "../../components/header-components/Self";
-import ModuleHeader from "../../components/header-components/Module";
-import EquipmentHeader from "../../components/header-components/Equipment";
-import BoardHeader from "../../components/header-components/Board";
-import LanguageSwitcher from "../../components/languageSwitcher/LanguageSwitcher";
-import { useTranslation } from "react-i18next";
-import ConstructorHeader from "../../components/header-components/Constructor";
-import SpareHeader from "../../components/header-components/Spare";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
+
+const SelfHeader = lazy(
+  () => import("../../components/header-components/Self")
+);
+const ModuleHeader = lazy(
+  () => import("../../components/header-components/Module")
+);
+const EquipmentHeader = lazy(
+  () => import("../../components/header-components/Equipment")
+);
+const BoardHeader = lazy(
+  () => import("../../components/header-components/Board")
+);
+const LanguageSwitcher = lazy(
+  () => import("../../components/languageSwitcher/LanguageSwitcher")
+);
+const ConstructorHeader = lazy(
+  () => import("../../components/header-components/Constructor")
+);
+const SpareHeader = lazy(
+  () => import("../../components/header-components/Spare")
+);
+
 import {
   CONSTRUCTOR_MOBILE,
   EQUIP_MOBILE,
+  GALLERY_PAGE,
   MODULE_MOBILE,
   SELF_MOBILE,
   SPARE_MOBILE,
 } from "../../assets/paths";
+import GallerySmall from "../../components/gallery/Gallery";
+import { useTranslation } from "react-i18next";
 
 const Header: React.FC = () => {
   const { t } = useTranslation();
@@ -63,10 +82,18 @@ const Header: React.FC = () => {
       show: true,
     },
     {
+      name: t("gallery"),
+      content: <GallerySmall />,
+      mobilePath: GALLERY_PAGE,
+      show: true,
+      href: GALLERY_PAGE,
+    },
+    {
       name: t("constructor"),
       content: <ConstructorHeader />,
       mobilePath: CONSTRUCTOR_MOBILE,
       show: true,
+      className: "animated-border",
     },
     {
       name: "Monitoring",
@@ -96,8 +123,6 @@ const Header: React.FC = () => {
     setDrawerOpen(false);
     setDrawerContent("");
   };
-  console.log(activePage, "---");
-
   const renderDrawer = (
     <Drawer
       anchor="top"
@@ -137,8 +162,31 @@ const Header: React.FC = () => {
             {pages.map((page, index) => (
               <Button
                 key={index}
-                href={page.link ? page.link : undefined}
+                href={page.href ? page.href : undefined}
                 color="inherit"
+                sx={{
+                  ...(page.className === "animated-border" && {
+                    position: "relative",
+                    overflow: "hidden",
+                    "&::before": {
+                      content: '""',
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      border: "2px solid transparent",
+                      borderRadius: "inherit",
+                      animation: "outline-animation 2s linear infinite",
+                      zIndex: -1,
+                    },
+                    "@keyframes outline-animation": {
+                      "0%": { borderColor: "transparent" },
+                      "50%": { borderColor: "#00838D" },
+                      "100%": { borderColor: "transparent" },
+                    },
+                  }),
+                }}
                 onMouseEnter={() => {
                   handleMouseEnter(page.content);
                   setActivePage(page.show);
@@ -170,15 +218,22 @@ const Header: React.FC = () => {
           <LanguageSwitcher />
         </Box>
 
-        <Fade in={drawerOpen} timeout={3000}>
+        <Fade in={drawerOpen} timeout={1000}>
           <Typography variant="body1" sx={{ textAlign: "center" }}>
-            {drawerContent}
+            <Suspense fallback={<div>Loading...</div>}>
+              <TransitionGroup component={null}>
+                {drawerContent && (
+                  <CSSTransition timeout={2000} classNames="fade">
+                    <div>{drawerContent}</div>
+                  </CSSTransition>
+                )}
+              </TransitionGroup>
+            </Suspense>
           </Typography>
         </Fade>
       </Box>
     </Drawer>
   );
-
   const renderBurger = (
     <Drawer
       anchor="left"
@@ -249,9 +304,16 @@ const Header: React.FC = () => {
           </Button>
           <LanguageSwitcher />
         </Box>
-        <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {typeof drawerContent === "string" ? drawerContent : drawerContent}
-        </Typography>
+        {typeof drawerContent === "string" ? (
+          <Typography variant="body1" sx={{ textAlign: "center" }}>
+            {drawerContent}
+          </Typography>
+        ) : (
+          drawerContent
+        )}
+
+        {/* {typeof drawerContent === "string" ? drawerContent : drawerContent} */}
+        {/* </Typography> */}
       </Box>
     </Drawer>
   );
@@ -285,14 +347,32 @@ const Header: React.FC = () => {
             <Button
               key={index}
               color="inherit"
+              sx={{
+                ...(page.className === "animated-border" && {
+                  position: "relative",
+                  overflow: "hidden",
+                  "&::before": {
+                    content: '""',
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    border: "2px solid transparent",
+                    borderRadius: "inherit",
+                    animation: "outline-animation 2s linear infinite",
+                    zIndex: -1,
+                  },
+                  "@keyframes outline-animation": {
+                    "0%": { borderColor: "transparent" },
+                    "50%": { borderColor: "red" },
+                    "100%": { borderColor: "transparent" },
+                  },
+                }),
+              }}
               onMouseEnter={() => handleMouseEnter(page.content)}
             >
-              <Link
-                to={`/${page.name.toLowerCase()}`}
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
-                {page.name}
-              </Link>
+              {page.name}
             </Button>
           ))}
         </Box>

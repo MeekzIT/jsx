@@ -6,6 +6,7 @@ import boardReducer from "./slices/boardSlice";
 import serviceReducer from "./slices/servicesSlice";
 import constructorReducer from "./slices/constructorSlice";
 import spareReducer from "./slices/spareSlice";
+import galleryReducer from "./slices/gallerySlice";
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
     service: serviceReducer,
     constr: constructorReducer,
     spare: spareReducer,
+    gallery: galleryReducer,
   },
 });
 

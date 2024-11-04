@@ -1,26 +1,24 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { About, Service } from "../types";
+import { IGallery } from "../types";
 import { backUrl } from "../keys";
 
 interface ModuleState {
-  data: Service[];
+  data: IGallery[];
   loading: boolean;
   error: string | null;
-  about: About | null;
 }
 
 const initialState: ModuleState = {
   data: [],
   loading: false,
   error: null,
-  about: null,
 };
 
-export const fetchData = createAsyncThunk<Service[]>(
-  "service/fetchData",
+export const fetchData = createAsyncThunk<IGallery[]>(
+  "gallery/fetchData",
   async () => {
-    const response = await axios.get(`${backUrl}/service`);
+    const response = await axios.get(`${backUrl}/gallery`);
     if (response.data.succes) {
       return response.data.data;
     } else {
@@ -29,20 +27,8 @@ export const fetchData = createAsyncThunk<Service[]>(
   }
 );
 
-export const fetchAbout = createAsyncThunk<About[]>(
-  "service/fetchAbout",
-  async () => {
-    const response = await axios.get(`${backUrl}/about`);
-    if (response.data.succes) {
-      return response.data.data;
-    } else {
-      return [];
-    }
-  }
-);
-
-const serviceSlice = createSlice({
-  name: "service",
+const gallerySlice = createSlice({
+  name: "gallery",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -58,11 +44,8 @@ const serviceSlice = createSlice({
       .addCase(fetchData.rejected, (state, action) => {
         state.error = action.error.message || "Failed to fetch services";
         state.loading = false;
-      })
-      .addCase(fetchAbout.fulfilled, (state, action) => {
-        state.about = action.payload[0];
       });
   },
 });
 
-export default serviceSlice.reducer;
+export default gallerySlice.reducer;

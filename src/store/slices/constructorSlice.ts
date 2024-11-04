@@ -25,6 +25,7 @@ const initialState: ModuleState = {
   priceData: null,
   loading: false,
   error: null,
+  currency: null,
 };
 
 export const fetchData = createAsyncThunk<IConstructor[]>(

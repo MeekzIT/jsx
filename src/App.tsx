@@ -23,10 +23,12 @@ import {
   BOARD_MOBILE,
   CONSTRUCTOR_MOBILE,
   EQUIP_MOBILE,
+  GALLERY_PAGE,
   MODULE_MOBILE,
   SELF_MOBILE,
   SPARE_MOBILE,
 } from "./assets/paths";
+import GalleryPage from "./pages/Gallery";
 
 function App() {
   const theme = createTheme({
@@ -50,6 +52,7 @@ function App() {
             <Route path="/spare/:id" element={<Spare />} />
             <Route path="/constuctor/:id" element={<Constructor />} />
             <Route path="/contact-us" element={<ContactUs />} />
+            <Route path={GALLERY_PAGE} element={<GalleryPage />} />
             //mobile menu
             <Route path={SELF_MOBILE} element={<SelfHeader />} />
             <Route path={MODULE_MOBILE} element={<ModuleHeader />} />

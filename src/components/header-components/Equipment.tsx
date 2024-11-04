@@ -4,6 +4,7 @@ import { fetchData } from "../../store/slices/equipmentSlice";
 import Loading from "../loading/Loading";
 import { Equipment } from "../../store/types";
 import CardSmall from "../cards/CardSmall";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 const EquipmentHeader = () => {
   const dispatch = useAppDispatch();
@@ -18,14 +19,18 @@ const EquipmentHeader = () => {
 
   return (
     <div className="header-box">
-      {data.map((i: Equipment) => (
-        <CardSmall
-          key={i.id}
-          data={i}
-          image={i.EquipmentImages[0]}
-          href="/equipment/"
-        />
-      ))}
+      <TransitionGroup component={null}>
+        {data.map((i: Equipment) => (
+          <CSSTransition key={i.id} timeout={2000} classNames="fade">
+            <CardSmall
+              key={i.id}
+              data={i}
+              image={i.EquipmentImages[0]}
+              href="/equipment/"
+            />
+          </CSSTransition>
+        ))}
+      </TransitionGroup>
     </div>
   );
 };

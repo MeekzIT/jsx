@@ -11,6 +11,8 @@ import withEquation from "./plugins/withEquation";
 import { getBlock, getMarked } from "./utils/SlateUtilityFunctions";
 interface IParcer {
   data: Descendant[];
+  background?: string;
+  color?: string;
 }
 
 const Element = (props: any) => {
@@ -21,7 +23,7 @@ const Leaf = ({ attributes, children, leaf }: any) => {
   return <span {...attributes}>{children}</span>;
 };
 
-export default function TextParcer({ data }: IParcer) {
+export default function TextParcer({ data, background, color }: IParcer) {
   const editor = useMemo(
     () =>
       withEquation(
@@ -35,12 +37,17 @@ export default function TextParcer({ data }: IParcer) {
   const renderLeaf = useCallback((props: any) => {
     return <Leaf {...props} />;
   }, []);
+  console.log(background, "background");
 
   return (
     <Slate editor={editor} initialValue={data}>
       <div
         className="editor-wrapper"
-        style={{ background: "#fff", padding: "20px 0" }}
+        style={{
+          background: background ? background : "#fff",
+          padding: "20px 0",
+          color: color ? color : "black",
+        }}
       >
         <Editable
           readOnly
