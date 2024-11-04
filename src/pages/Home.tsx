@@ -55,7 +55,7 @@ const Home = () => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              transition: "opacity 0.6s ease-in-out",
+              transition: "opacity 2s ease-in-out",
               flexDirection: "column",
               overflow: "hidden",
               padding: 0,
