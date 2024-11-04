@@ -1,14 +1,18 @@
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { fetchData } from "../store/slices/gallerySlice";
 import { Gallery } from "react-grid-gallery";
 import { Typography } from "@mui/material";
 import Loading from "../components/loading/Loading";
 import { useTranslation } from "react-i18next";
+import { SimpleDialog } from "../components/dialog/Dialog";
+import { Image } from "../store/types";
 
 const GalleryPage = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const [open, setOpen] = useState(false);
+  const [current, setCurrent] = useState<Image | undefined>();
   const { data, loading } = useAppSelector((state) => state.gallery);
 
   useEffect(() => {
@@ -22,7 +26,22 @@ const GalleryPage = () => {
       <Typography variant="h3" sx={{ ml: 2, mt: 2, mb: 2, color: "#00838D" }}>
         {t("gallery")}
       </Typography>
-      <Gallery images={data} isSelected={false} />
+      <Gallery
+        images={data}
+        isSelected={false}
+        onClick={(_, item) => {
+          setOpen(true);
+          console.log(item, "8888");
+          setCurrent(item);
+        }}
+      />
+      <SimpleDialog open={open} onClose={() => setOpen(false)}>
+        <img
+          src={current?.src}
+          width={current?.width}
+          height={current?.height}
+        />
+      </SimpleDialog>
     </>
   );
 };

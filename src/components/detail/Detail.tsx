@@ -15,41 +15,37 @@ const Detail = ({ data, images }: IDetailProps) => {
 
   return (
     <Box sx={{ p: { xs: 2, md: 3 }, maxWidth: "1200px", margin: "0 auto" }}>
+      <Box sx={{ flex: 1, textAlign: { xs: "center", md: "left" } }}>
+        <Typography
+          variant="h2"
+          sx={{
+            color: "#00838d",
+            fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
+            mb: 2,
+          }}
+        >
+          {language === "am"
+            ? data?.titleAm
+            : language === "ru"
+            ? data?.titleRu
+            : language === "en"
+            ? data?.titleEn
+            : data?.titleGe}
+        </Typography>
+      </Box>
       <Box
         sx={{
           display: "flex",
           p: 2,
-          gap: { xs: "16px", md: "30px" },
-          flexDirection: { xs: "column-reverse", md: "row" },
-          alignItems: "center",
         }}
       >
         <Box
           sx={{
-            width: { xs: "100%", md: "40%" },
-            maxHeight: { xs: "250px", md: "400px" },
+            width: "100%",
+            // maxHeight: { xs: "250px", md: "400px" },
           }}
         >
           <ImageSlider images={images} />
-        </Box>
-
-        <Box sx={{ flex: 1, textAlign: { xs: "center", md: "left" } }}>
-          <Typography
-            variant="h2"
-            sx={{
-              color: "#00838d",
-              fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
-              mb: 2,
-            }}
-          >
-            {language === "am"
-              ? data?.titleAm
-              : language === "ru"
-              ? data?.titleRu
-              : language === "en"
-              ? data?.titleEn
-              : data?.titleGe}
-          </Typography>
         </Box>
       </Box>
 

@@ -9,6 +9,8 @@ import {
 } from "../../store/types";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { CSSTransition } from "react-transition-group";
 
 interface ICardSmall {
   data: Self | Module | Equipment | Board | Spare;
@@ -20,34 +22,41 @@ export default function CardSmall({ data, image, href }: ICardSmall) {
   const { i18n } = useTranslation();
   const navigate = useNavigate();
   const language = i18n.language;
-  console.log();
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <Card sx={{ width: 300 }} onClick={() => navigate(href + data.id)}>
-      <CardMedia
-        sx={{ height: 100, display: "block" }}
-        image={image.image}
-        title="green iguana"
-      />
-      <CardContent>
-        <Typography gutterBottom variant="h6" component="div">
-          {Object.hasOwn(data, "titleAm")
-            ? language === "am"
-              ? data?.titleAm
+    <CSSTransition in={isHovered} timeout={300} classNames="card-hover">
+      <Card
+        sx={{ width: 300, cursor: "pointer" }}
+        onClick={() => navigate(href + data.id)}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <CardMedia
+          sx={{ height: 200, display: "block" }}
+          image={image.image}
+          title="green iguana"
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h6" component="div">
+            {Object.hasOwn(data, "titleAm")
+              ? language === "am"
+                ? data?.titleAm
+                : language === "ru"
+                ? data?.titleRu
+                : language === "en"
+                ? data?.titleEn
+                : data?.titleGe
+              : language === "am"
+              ? data?.nameAm
               : language === "ru"
-              ? data?.titleRu
+              ? data?.nameRu
               : language === "en"
-              ? data?.titleEn
-              : data?.titleGe
-            : language === "am"
-            ? data?.nameAm
-            : language === "ru"
-            ? data?.nameRu
-            : language === "en"
-            ? data?.nameEn
-            : data?.nameGe}
-        </Typography>
-      </CardContent>
-    </Card>
+              ? data?.nameEn
+              : data?.nameGe}
+          </Typography>
+        </CardContent>
+      </Card>
+    </CSSTransition>
   );
 }

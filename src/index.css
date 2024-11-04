@@ -113,3 +113,23 @@ body {
   transform: translateY(-10px);
   transition: opacity 300ms, transform 300ms;
 }
+
+/* CardSmall.css */
+
+.card-hover-enter {
+  transform: scale(1);
+}
+
+.card-hover-enter-active {
+  transform: scale(1.05);
+  transition: transform 300ms ease-in-out;
+}
+
+.card-hover-exit {
+  transform: scale(1.05);
+}
+
+.card-hover-exit-active {
+  transform: scale(1);
+  transition: transform 300ms ease-in-out;
+}

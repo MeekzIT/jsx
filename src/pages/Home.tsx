@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import TextParcer from "../components/textParcer/TextParser";
 import About from "../components/about/About";
 import GallerySmall from "../components/gallery/Gallery";
+import Partners from "../components/partners/Partners";
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -136,6 +137,7 @@ const Home = () => {
             </Grid>
           </Box>
         ))}
+        <Partners />
       </Box>
     </>
   );

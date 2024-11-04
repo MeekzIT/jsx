@@ -177,6 +177,15 @@ export interface About {
 
 export interface IGallery {
   id: number;
+  src: string;
+  width: string;
+  height: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IPartner {
+  id: number;
   image: string;
   createdAt: string;
   updatedAt: string;

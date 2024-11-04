@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import Slider from "react-slick";
 import { Image } from "../../store/types";
+import { SimpleDialog } from "../dialog/Dialog";
 
 // Define types for the props (optional, but good practice with TypeScript)
 interface ImageSliderProps {
@@ -8,6 +9,8 @@ interface ImageSliderProps {
 }
 
 const ImageSlider: React.FC<ImageSliderProps> = ({ images }) => {
+  const [open, setOpen] = useState(false);
+  const [current, setCurrent] = useState(false);
   const settings = {
     dots: true, // Show dots for navigation
     infinite: true, // Loop through slides
@@ -22,15 +25,28 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images }) => {
     <div>
       <Slider {...settings}>
         {images?.map((img, index) => (
-          <div key={index}>
+          <div
+            key={index}
+            onClick={() => {
+              setCurrent(img);
+              setOpen(true);
+            }}
+          >
             <img
               src={img.image}
               alt={`Slide ${index + 1}`}
-              style={{ width: "100%", maxHeight: 400 }}
+              // style={{ width: "100%", maxHeight: 400 }}
             />
           </div>
         ))}
       </Slider>
+      <SimpleDialog open={open} onClose={() => setOpen(false)}>
+        <img
+          src={current?.image}
+          width={current?.width}
+          height={current?.height}
+        />
+      </SimpleDialog>
     </div>
   );
 };
