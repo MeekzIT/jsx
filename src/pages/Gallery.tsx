@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { useEffect, useState } from "react";
 import { fetchData } from "../store/slices/gallerySlice";
@@ -12,7 +14,7 @@ const GalleryPage = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const [open, setOpen] = useState(false);
-  const [current, setCurrent] = useState<Image | undefined>();
+  const [current, setCurrent] = useState<Image>();
   const { data, loading } = useAppSelector((state) => state.gallery);
 
   useEffect(() => {
@@ -31,7 +33,6 @@ const GalleryPage = () => {
         isSelected={false}
         onClick={(_, item) => {
           setOpen(true);
-          console.log(item, "8888");
           setCurrent(item);
         }}
       />

@@ -4,6 +4,7 @@ import {
   Currency,
   IConstructor,
   IConstuctorItemOptions,
+  PriceResponse,
   SelectedData,
 } from "../types";
 import { backUrl } from "../keys";
@@ -11,7 +12,7 @@ import { backUrl } from "../keys";
 interface ModuleState {
   data: IConstructor[];
   single: IConstructor | null;
-  priceData: any;
+  priceData: PriceResponse | null;
   service: IConstuctorItemOptions | null;
   currency: Currency | null;
   loading: boolean;
@@ -54,7 +55,7 @@ export const fetchSingle = createAsyncThunk<IConstructor, string>(
   }
 );
 
-export const fetchCurrency = createAsyncThunk<Currency, string>(
+export const fetchCurrency = createAsyncThunk<Currency>(
   "constr/fetchCurrency",
   async () => {
     const response = await axios.get(
@@ -82,7 +83,7 @@ export const fetchSingleService = createAsyncThunk<
   }
 });
 
-export const getDataPrice = createAsyncThunk<IConstructor[], SelectedData>(
+export const getDataPrice = createAsyncThunk<PriceResponse, SelectedData>(
   "constr/getDataPrice",
   async (data) => {
     const response = await axios.post(`${backUrl}/constuctor/price`, data);

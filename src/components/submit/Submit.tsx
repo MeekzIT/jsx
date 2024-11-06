@@ -3,9 +3,10 @@ import { useTranslation } from "react-i18next";
 import { useForm, SubmitHandler } from "react-hook-form";
 import axios from "axios";
 import { backUrl } from "../../store/keys";
+import { PriceResponse } from "../../store/types";
 
 interface ISubmit {
-  data: any;
+  data: PriceResponse | null;
   onSubmitOrder: () => void;
 }
 
@@ -53,7 +54,7 @@ const Submit = ({ data, onSubmitOrder }: ISubmit) => {
                   required: t("requiredField", { field: t("name") }),
                 })}
                 error={!!errors.firstName}
-                helperText={errors.name?.firstName}
+                helperText={errors.firstName?.message}
               />
             </Grid>
             <Grid item xs={12} sm={6}>

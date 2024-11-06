@@ -8,7 +8,7 @@ import {
   getDataPrice,
 } from "../store/slices/constructorSlice";
 import Loading from "../components/loading/Loading";
-import { Box, Grid, Typography, Button } from "@mui/material";
+import { Box, Typography, Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import {
   IConstuctorItems,
@@ -19,6 +19,16 @@ import RadioBox from "../components/radio/Radio";
 import CheckboxBox from "../components/checkbox/Checkbox";
 import { SimpleDialog } from "../components/dialog/Dialog";
 import Submit from "../components/submit/Submit";
+
+interface ISelectedImagesItem {
+  image: string | undefined;
+  width: string;
+  height: string;
+}
+interface ISelectedImages {
+  service: ISelectedImagesItem[];
+  option: ISelectedImagesItem[];
+}
 
 const Constructor = () => {
   const { id } = useParams<{ id: string }>();
@@ -33,10 +43,12 @@ const Constructor = () => {
     variant: id,
     services: {},
   });
-  const [selectedOption, setSelectedOption] = useState();
+  const [selectedOption, setSelectedOption] = useState<
+    number | undefined | number[]
+  >();
   const [open, setOpen] = useState<boolean>(false);
   const [openNitify, setOpenNitify] = useState(false);
-  const [selectedImages, setSelectedImages] = useState({
+  const [selectedImages, setSelectedImages] = useState<ISelectedImages>({
     service: [],
     option: [],
   });
@@ -49,11 +61,9 @@ const Constructor = () => {
   }, [dispatch, id]);
 
   useEffect(() => {
-    single?.ConstuctorItems.map((s) => {
+    single?.ConstuctorItems?.map((s: IConstuctorItems) => {
       const item = s.ConstuctorItemOptions;
       item.map((i) => {
-        console.log(s, "selectedOption");
-
         if (i.showIn && !i.ConstuctorOptionItems.length) {
           setSelectedImages((prevData) => {
             return {
@@ -66,7 +76,6 @@ const Constructor = () => {
           });
         }
         if (i.showIn && i.id == selectedOption) {
-          console.log(i, "item");
           setSelectedImages((prevData) => {
             return {
               ...prevData,
@@ -191,9 +200,6 @@ const Constructor = () => {
       }}
     >
       <Box
-        item
-        xs={12}
-        sm={6}
         sx={{
           padding: "20px",
           width: { xs: "100%", md: "60%" },
@@ -203,7 +209,6 @@ const Constructor = () => {
           display: "flex",
           justifyContent: "space-between",
           flexDirection: "column",
-          // position: { xs: "fixed", md: "static" },
         }}
       >
         <Box
@@ -221,7 +226,6 @@ const Constructor = () => {
             height={single?.height}
           />
           {selectedImages?.service?.map((i) => {
-            console.log(i, "111");
             if (i) {
               return (
                 <img
@@ -248,10 +252,6 @@ const Constructor = () => {
         </Box>
       </Box>
       <Box
-        item
-        xs={6}
-        sm={6}
-        md={6}
         sx={{
           width: { xs: "100%", md: "40%" },
           height: { xs: "70%", md: "100%" },
@@ -299,9 +299,8 @@ const Constructor = () => {
                   key={i.id}
                   options={i?.ConstuctorItemOptions}
                   name={name}
-                  value={selectedData[i.id]} // Set default value
                   onChange={(value, hasItems) =>
-                    handleSelectionChange(i.id, value, hasItems)
+                    handleSelectionChange(i.id, Number(value), hasItems)
                   }
                 />
               ) : (
@@ -340,9 +339,8 @@ const Constructor = () => {
                         ? i?.nameEn
                         : i?.nameGe
                     }
-                    value={selectedData.services[i.id]} // Set default value
                     onChange={(value) =>
-                      handleSelectionServiceChange(i.id, value)
+                      handleSelectionServiceChange(i.id, Number(value))
                     }
                   />
                 ) : (

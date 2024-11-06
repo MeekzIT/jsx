@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import TextParcer from "../textParcer/TextParser";
 
 interface IDetailProps {
-  data?: Module;
+  data: Module;
 }
 
 const DetailModule = ({ data }: IDetailProps) => {

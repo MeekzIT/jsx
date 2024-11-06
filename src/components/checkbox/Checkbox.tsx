@@ -8,13 +8,16 @@ import {
   Typography,
 } from "@mui/material";
 import { ChangeEvent, ReactNode, useState } from "react";
-import { IConstuctorItemOptions } from "../../store/types";
+import {
+  IConstuctorItemOptionItemOptions,
+  IConstuctorItemOptions,
+} from "../../store/types";
 import { useTranslation } from "react-i18next";
 import TooltipPrice from "../tooltip/Tooltip";
 
 interface CheckboxBoxProps {
   name: string | ReactNode;
-  options: IConstuctorItemOptions[];
+  options: IConstuctorItemOptions[] | IConstuctorItemOptionItemOptions[];
   onChange: (value: number[]) => void; // Changed the value type to number[]
 }
 

@@ -107,7 +107,7 @@ const ContactUs: React.FC = () => {
                 required: t("requiredField", { field: t("name") }),
               })}
               error={!!errors.firstName}
-              helperText={errors.name?.firstName}
+              helperText={errors?.firstName?.message}
             />
           </Grid>
           <Grid item xs={12} sm={6}>

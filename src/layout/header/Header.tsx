@@ -1,4 +1,4 @@
-import React, { useState, lazy, Suspense } from "react";
+import React, { useState, lazy, Suspense, ReactNode } from "react";
 import {
   AppBar,
   Toolbar,
@@ -50,10 +50,9 @@ import { useTranslation } from "react-i18next";
 
 const Header: React.FC = () => {
   const { t } = useTranslation();
-  const [activePage, setActivePage] = useState(SELF_MOBILE);
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [burgerOpen, setBurgerOpen] = useState<boolean>(false);
-  const [drawerContent, setDrawerContent] = useState<string>("");
+  const [drawerContent, setDrawerContent] = useState<string | ReactNode>("");
 
   const pages = [
     {
@@ -189,7 +188,6 @@ const Header: React.FC = () => {
                 }}
                 onMouseEnter={() => {
                   handleMouseEnter(page.content);
-                  setActivePage(page.show);
                 }}
               >
                 {page.show ? (
@@ -218,12 +216,12 @@ const Header: React.FC = () => {
           <LanguageSwitcher />
         </Box>
 
-        <Fade in={drawerOpen} timeout={1000}>
+        <Fade in={drawerOpen} timeout={100}>
           <Typography variant="body1" sx={{ textAlign: "center" }}>
             <Suspense fallback={<div>Loading...</div>}>
               <TransitionGroup component={null}>
                 {drawerContent && (
-                  <CSSTransition timeout={2000} classNames="fade">
+                  <CSSTransition timeout={900} classNames="fade">
                     <div>{drawerContent}</div>
                   </CSSTransition>
                 )}
@@ -273,11 +271,7 @@ const Header: React.FC = () => {
             }}
           >
             {pages.map((page, index) => (
-              <Button
-                key={index}
-                href={page.link ? page.link : page.mobilePath}
-                color="inherit"
-              >
+              <Button key={index} href={page.mobilePath} color="inherit">
                 {page.show ? (
                   page.name
                 ) : (

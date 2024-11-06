@@ -2,6 +2,7 @@ import { Card, CardContent, CardMedia, Typography } from "@mui/material";
 import {
   Board,
   Equipment,
+  IConstructor,
   Image,
   Module,
   Self,
@@ -13,7 +14,7 @@ import { useState } from "react";
 import { CSSTransition } from "react-transition-group";
 
 interface ICardSmall {
-  data: Self | Module | Equipment | Board | Spare;
+  data: Self | Module | Equipment | Board | Spare | IConstructor;
   image: Image;
   href: string;
 }
@@ -24,36 +25,43 @@ export default function CardSmall({ data, image, href }: ICardSmall) {
   const language = i18n.language;
   const [isHovered, setIsHovered] = useState(false);
 
+  // Helper function to get title or name based on language
+  const getTitleOrName = () => {
+    if ("titleAm" in data) {
+      return language === "am"
+        ? data.titleAm
+        : language === "ru"
+        ? data.titleRu
+        : language === "en"
+        ? data.titleEn
+        : data.titleGe;
+    } else {
+      return language === "am"
+        ? data.nameAm
+        : language === "ru"
+        ? data.nameRu
+        : language === "en"
+        ? data.nameEn
+        : data.nameGe;
+    }
+  };
+
   return (
-    <CSSTransition in={isHovered} timeout={300} classNames="card-hover">
+    <CSSTransition in={isHovered} timeout={1000} classNames="card-hover">
       <Card
         sx={{ width: 300, cursor: "pointer" }}
-        onClick={() => navigate(href + data.id)}
+        onClick={() => navigate(`${href}${data.id}`)}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
         <CardMedia
           sx={{ height: 200, display: "block" }}
           image={image.image}
-          title="green iguana"
+          title={getTitleOrName()}
         />
         <CardContent>
           <Typography gutterBottom variant="h6" component="div">
-            {Object.hasOwn(data, "titleAm")
-              ? language === "am"
-                ? data?.titleAm
-                : language === "ru"
-                ? data?.titleRu
-                : language === "en"
-                ? data?.titleEn
-                : data?.titleGe
-              : language === "am"
-              ? data?.nameAm
-              : language === "ru"
-              ? data?.nameRu
-              : language === "en"
-              ? data?.nameEn
-              : data?.nameGe}
+            {getTitleOrName()}
           </Typography>
         </CardContent>
       </Card>

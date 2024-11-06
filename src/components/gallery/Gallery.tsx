@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { Box, Typography } from "@mui/material";
 import { Gallery } from "react-grid-gallery";

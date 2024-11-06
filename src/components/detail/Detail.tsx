@@ -1,11 +1,11 @@
 import { Box, Typography } from "@mui/material";
-import { Board, Equipment, Image, Self, Spare } from "../../store/types";
+import { Board, Equipment, Image, Module, Self, Spare } from "../../store/types";
 import ImageSlider from "../slider/Slider";
 import { useTranslation } from "react-i18next";
 import TextParcer from "../textParcer/TextParser";
 
 interface IDetailProps {
-  data?: Self | Board | Equipment | Spare;
+  data: Self | Board | Equipment | Spare | Module;
   images: Image[];
 }
 
@@ -42,7 +42,6 @@ const Detail = ({ data, images }: IDetailProps) => {
         <Box
           sx={{
             width: "100%",
-            // maxHeight: { xs: "250px", md: "400px" },
           }}
         >
           <ImageSlider images={images} />

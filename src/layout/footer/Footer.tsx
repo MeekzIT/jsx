@@ -96,7 +96,7 @@ const Footer: React.FC = () => {
   );
 };
 
-const Layout: React.FC = ({ children }) => {
+const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <Box
       sx={{

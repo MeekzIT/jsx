@@ -13,8 +13,8 @@ const Home = () => {
   const dispatch = useAppDispatch();
   const { i18n } = useTranslation();
   const language = i18n.language;
-
   const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
+
   const { data, loading, error } = useAppSelector((state) => state.service);
 
   useEffect(() => {
@@ -47,7 +47,9 @@ const Home = () => {
 
         {data.map((section, index) => (
           <Box
-            ref={(el) => (sectionRefs.current[index] = el)}
+            ref={(el: HTMLDivElement | null) => {
+              if (el) sectionRefs.current[index] = el;
+            }}
             key={section.id}
             sx={{
               width: "100vw",

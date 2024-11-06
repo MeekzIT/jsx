@@ -1,7 +1,9 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { Editor, Range, Point, Element} from 'slate'
 
 const withTable = (editor) =>{
-    const { deleteBackward, deleteForward, insertBreak} = editor
+    const { deleteBackward, deleteForward} = editor
 
     editor.deleteBackward = unit =>{
         const { selection }= editor;

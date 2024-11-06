@@ -1,7 +1,10 @@
 export interface Image {
   id: number;
-  reletedId: number;
-  image: string;
+  reletedId?: number;
+  image?: string;
+  src?: string;
+  width?: string;
+  height?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -97,6 +100,7 @@ export interface Service {
   updatedAt: string;
 }
 interface ITranslatableContent {
+  id: number;
   nameAm: string;
   nameRu: string;
   nameEn: string;
@@ -112,6 +116,7 @@ interface IIdentifiable {
 }
 
 interface IItem extends IIdentifiable, ITranslatableContent {
+  id: number;
   image?: string;
   order?: number;
   require?: boolean;
@@ -126,31 +131,33 @@ export interface IConstuctorItemOptionItemOptions extends IItem {
 export interface IConstuctorOptionItems extends IItem {
   reletedId: number;
   price?: string;
-  ConstuctorItemOptionItemOptions: IConstuctorItemOptionItemOptions;
+  ConstuctorItemOptionItemOptions: IConstuctorItemOptionItemOptions[];
 }
 
 export interface IConstuctorItemOptions extends IItem {
   itemId: number;
   price: string;
   showIn: boolean;
-  ConstuctorOptionItems: IConstuctorOptionItems;
+  width: string;
+  height: string;
+  ConstuctorOptionItems: IConstuctorOptionItems[];
 }
 
 export interface IConstuctorItems extends IItem {
   reletedId: number;
-  ConstuctorItemOptions: IConstuctorItemOptions;
+  ConstuctorItemOptions: IConstuctorItemOptions[];
 }
 
 export interface IConstructor extends ITranslatableContent {
   image: string;
   width: string;
   height: string;
-  ConstuctorItems: IConstuctorItems;
+  ConstuctorItems: IConstuctorItems[];
 }
 
 export interface SelectedData {
-  variant: string | undefined;
   [key: number]: number | number[];
+  variant: string | undefined;
   services: { [key: number]: number | number[] };
 }
 
@@ -189,4 +196,50 @@ export interface IPartner {
   image: string;
   createdAt: string;
   updatedAt: string;
+}
+ 
+
+// ---
+
+interface ServiceOption {
+  id: number;
+  price: string; // Assuming price is a string
+  nameAm?: string;
+  nameRu?: string;
+  nameEn?: string;
+  nameGe?: string;
+}
+
+interface ServiceItem {
+  id: number;
+  nameAm?: string;
+  nameRu?: string;
+  nameEn?: string;
+  nameGe?: string;
+}
+
+interface ServicePrice {
+  id: number;
+  nameAm?: string;
+  nameRu?: string;
+  nameEn?: string;
+  nameGe?: string;
+}
+
+export interface PriceResponse {
+  variant: {
+    id: number;
+    name: string;
+  };
+  items: {
+    item: ServiceItem;
+    options: ServiceOption | ServiceOption[];
+    price: number;
+  }[];
+  services: {
+    service: ServicePrice;
+    options: ServiceOption | ServiceOption[];
+    price: number;
+  }[];
+  price: number; // Total price
 }

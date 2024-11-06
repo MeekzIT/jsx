@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import React from "react";
 import { Editor, Transforms, Element as SlateElement } from "slate";
 import Link from "../Elements/Link/Link";

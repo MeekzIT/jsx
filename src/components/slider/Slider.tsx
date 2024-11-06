@@ -10,7 +10,7 @@ interface ImageSliderProps {
 
 const ImageSlider: React.FC<ImageSliderProps> = ({ images }) => {
   const [open, setOpen] = useState(false);
-  const [current, setCurrent] = useState(false);
+  const [current, setCurrent] = useState<Image>();
   const settings = {
     dots: true, // Show dots for navigation
     infinite: true, // Loop through slides
