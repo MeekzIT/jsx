@@ -128,6 +128,8 @@ export interface IConstuctorItemOptionItemOptions extends IItem {
   itemId: number;
   price: string;
   showIn: boolean;
+  width: string;
+  height: string;
 }
 
 export interface IConstuctorOptionItems extends IItem {
