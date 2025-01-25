@@ -128,7 +128,7 @@ const Constructor = () => {
           defaultServiceSelections[item.id] =
             item.withValue && activeId
               ? activeId
-              : item.ConstuctorItemOptionItemOptions[0].id;
+              : item.ConstuctorItemOptionItemOptions[0]?.id;
         }
       });
 
@@ -205,7 +205,7 @@ const Constructor = () => {
           defaultValue={
             i.withValue && activeId
               ? activeId
-              : i.ConstuctorItemOptionItemOptions[0].id
+              : i.ConstuctorItemOptionItemOptions[0]?.id
           }
           name={
             language === "am"
