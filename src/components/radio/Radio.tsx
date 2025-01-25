@@ -100,8 +100,8 @@ export default function RadioBox({
                       src={i.image}
                       alt={i.nameEn}
                       style={{
-                        width: i?.width || "100px",
-                        height: i?.height || "100px",
+                        width: i?.width + "px" || "100px",
+                        height: i?.height + "px" || "100px",
                       }}
                     />
                   </Box>
