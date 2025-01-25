@@ -108,7 +108,6 @@ export default function RadioBox({
                 )}
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <Typography color="#008496" variant="h6">
-                    {i.id}
                     {language === "am"
                       ? i.nameAm
                       : language === "ru"
