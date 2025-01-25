@@ -90,8 +90,8 @@ export default function CheckboxBox({
                         src={i.image}
                         alt={i.nameEn}
                         style={{
-                          width: "100px",
-                          height: "100px",
+                          width: i?.width + "px" || "100px",
+                          height: i?.height + "px" || "100px",
                         }}
                       />
                     </Box>
