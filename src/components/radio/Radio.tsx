@@ -1,5 +1,6 @@
 import {
   Box,
+  Divider,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -65,9 +66,10 @@ export default function RadioBox({
   return (
     <FormControl sx={{ ml: 3 }}>
       <FormLabel sx={{ ml: 3 }}>
-        <Typography variant="h5" color="#008496">
+        <Typography variant="h5" color="#008496" mb={1} mt={1}>
           {name}
         </Typography>
+        <Divider />
       </FormLabel>
       <RadioGroup
         value={selectedValue}

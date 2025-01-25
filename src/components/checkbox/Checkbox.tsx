@@ -1,6 +1,7 @@
 import {
   Box,
   Checkbox,
+  Divider,
   FormControl,
   FormControlLabel,
   FormGroup,
@@ -53,9 +54,10 @@ export default function CheckboxBox({
   return (
     <FormControl sx={{ ml: 3 }} component="fieldset" variant="standard">
       <FormLabel sx={{ ml: 3 }}>
-        <Typography variant="h5" color="#008496">
+        <Typography variant="h5" color="#008496" mb={1} mt={1}>
           {name}
         </Typography>
+        <Divider />
       </FormLabel>
       <FormGroup>
         {options.map((i) => {
