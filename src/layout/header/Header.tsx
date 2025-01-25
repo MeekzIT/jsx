@@ -156,8 +156,8 @@ const Header: React.FC = () => {
     <Drawer
       anchor="top"
       transitionDuration={{
-        enter: 900,
-        exit: 900,
+        enter: 400,
+        exit: 400,
       }}
       open={drawerOpen}
       onClose={handleCloseDrawer}
