@@ -1,21 +1,23 @@
 // src/components/LanguageSwitcher.tsx
-import React from "react";
-import { useTranslation } from "react-i18next";
+import React, { useState } from "react";
 import {
   MenuItem,
   Select,
   SelectChangeEvent,
   FormControl,
 } from "@mui/material";
-import LanguageIcon from "@mui/icons-material/Language"; // Importing the icon
-
-const LanguageSwitcher: React.FC = () => {
-  const { i18n } = useTranslation();
-  const currentLanguage = i18n.language;
+import PriceChangeIcon from "@mui/icons-material/PriceChange";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
+import { getCurrentCurrency } from "../../store/slices/constructorSlice";
+const CurrencySwitcher: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const { currentCurrency } = useAppSelector((state) => state.constr);
+  const [currency, setCurrency] = useState(currentCurrency);
 
   const handleLanguageChange = (event: SelectChangeEvent) => {
-    const selectedLanguage = event.target.value;
-    i18n.changeLanguage(selectedLanguage);
+    setCurrency(event.target.value);
+    dispatch(getCurrentCurrency(event.target.value));
+    localStorage.setItem("currency", event.target.value);
   };
 
   return (
@@ -25,11 +27,11 @@ const LanguageSwitcher: React.FC = () => {
       style={{ minWidth: 100, margin: "0 10px" }}
     >
       <Select
-        value={currentLanguage}
+        value={currency}
         onChange={handleLanguageChange}
         label="Language"
         startAdornment={
-          <LanguageIcon
+          <PriceChangeIcon
             sx={{
               color: "#008496",
               marginRight: "8px",
@@ -53,13 +55,12 @@ const LanguageSwitcher: React.FC = () => {
           },
         }}
       >
-        <MenuItem value="ru">RU</MenuItem>
-        <MenuItem value="am">AM</MenuItem>
-        <MenuItem value="en">EN</MenuItem>
-        <MenuItem value="ge">GE</MenuItem>
+        <MenuItem value="en">$</MenuItem>
+        <MenuItem value="am">֏</MenuItem>
+        <MenuItem value="ru">₽</MenuItem>
       </Select>
     </FormControl>
   );
 };
 
-export default LanguageSwitcher;
+export default CurrencySwitcher;

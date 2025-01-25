@@ -1,4 +1,4 @@
-import React, { useState, lazy, Suspense, ReactNode } from "react";
+import React, { useState, lazy, Suspense, ReactNode, useEffect } from "react";
 import {
   AppBar,
   Toolbar,
@@ -7,13 +7,11 @@ import {
   Button,
   Drawer,
   Box,
-  Fade,
 } from "@mui/material";
 import logo from "./jsx.png";
 import drowerLogo from "./Whts Up.jpg";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
-import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 const SelfHeader = lazy(
   () => import("../../components/header-components/Self")
@@ -47,40 +45,55 @@ import {
 } from "../../assets/paths";
 import GallerySmall from "../../components/gallery/Gallery";
 import { useTranslation } from "react-i18next";
+import CurrencySwitcher from "../../components/languageSwitcher/CurrencySwitcher";
+import { usePathChanged } from "../../hooks/usePathChanged";
 
 const Header: React.FC = () => {
   const { t } = useTranslation();
+  const [pathChanged, setPathChanged] = usePathChanged();
+
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
+  const [active, setActive] = useState<number>(1);
   const [burgerOpen, setBurgerOpen] = useState<boolean>(false);
   const [drawerContent, setDrawerContent] = useState<string | ReactNode>("");
 
   const pages = [
     {
+      id: 1,
       name: t("self"),
       content: <SelfHeader />,
       show: true,
       mobilePath: SELF_MOBILE,
     },
     {
+      id: 2,
       name: t("module"),
       content: <ModuleHeader />,
       show: true,
       mobilePath: MODULE_MOBILE,
     },
     {
+      id: 3,
       name: t("equip"),
       content: <EquipmentHeader />,
       show: true,
       mobilePath: EQUIP_MOBILE,
     },
-    { name: t("board"), content: <BoardHeader />, show: true },
     {
+      id: 4,
+      name: t("board"),
+      content: <BoardHeader />,
+      show: true,
+    },
+    {
+      id: 5,
       name: t("spare"),
       content: <SpareHeader />,
       mobilePath: SPARE_MOBILE,
       show: true,
     },
     {
+      id: 6,
       name: t("gallery"),
       content: <GallerySmall />,
       mobilePath: GALLERY_PAGE,
@@ -88,6 +101,7 @@ const Header: React.FC = () => {
       href: GALLERY_PAGE,
     },
     {
+      id: 7,
       name: t("constructor"),
       content: <ConstructorHeader />,
       mobilePath: CONSTRUCTOR_MOBILE,
@@ -95,6 +109,7 @@ const Header: React.FC = () => {
       className: "animated-border",
     },
     {
+      id: 8,
       name: "Monitoring",
       content: (
         <h2>
@@ -106,6 +121,7 @@ const Header: React.FC = () => {
       href: "https://monitoring.jsxmachines.com",
     },
     {
+      id: 9,
       name: "Reserve",
       content: <h2>Coming Soon !</h2>,
       show: false,
@@ -113,8 +129,7 @@ const Header: React.FC = () => {
     },
   ];
 
-  const handleMouseEnter = (pageContent: string | JSX.Element) => {
-    setDrawerContent(pageContent);
+  const handleMouseEnter = () => {
     setDrawerOpen(true);
   };
 
@@ -122,9 +137,28 @@ const Header: React.FC = () => {
     setDrawerOpen(false);
     setDrawerContent("");
   };
+
+  useEffect(() => {
+    const currency = localStorage.getItem("currency");
+    if (!currency) {
+      localStorage.setItem("currency", "en");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (pathChanged) {
+      setDrawerOpen(false);
+      setPathChanged(false);
+    }
+  }, [pathChanged, setPathChanged]);
+
   const renderDrawer = (
     <Drawer
       anchor="top"
+      transitionDuration={{
+        enter: 900,
+        exit: 900,
+      }}
       open={drawerOpen}
       onClose={handleCloseDrawer}
       variant="persistent"
@@ -133,6 +167,7 @@ const Header: React.FC = () => {
           width: "100%",
           padding: 2,
           zIndex: 1300,
+          minHeight: "400px",
         },
       }}
     >
@@ -155,7 +190,7 @@ const Header: React.FC = () => {
               flexGrow: 1,
               justifyContent: "center",
               gap: 2,
-              color: "#00838D",
+              color: "#008496",
             }}
           >
             {pages.map((page, index) => (
@@ -163,32 +198,43 @@ const Header: React.FC = () => {
                 key={index}
                 href={page.href ? page.href : undefined}
                 color="inherit"
-                sx={{
-                  ...(page.className === "animated-border" && {
-                    position: "relative",
-                    overflow: "hidden",
-                    "&::before": {
-                      content: '""',
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      border: "2px solid transparent",
-                      borderRadius: "inherit",
-                      animation: "outline-animation 2s linear infinite",
-                      zIndex: -1,
-                    },
-                    "@keyframes outline-animation": {
-                      "0%": { borderColor: "transparent" },
-                      "50%": { borderColor: "#00838D" },
-                      "100%": { borderColor: "transparent" },
-                    },
-                  }),
+                sx={
+                  page.className === "animated-border"
+                    ? {
+                        ...(page.className === "animated-border" && {
+                          position: "relative",
+                          overflow: "hidden",
+                          "&::before": {
+                            content: '""',
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            border: "2px solid transparent",
+                            borderRadius: "inherit",
+                            animation: "outline-animation 2s linear infinite",
+                            zIndex: -1,
+                          },
+                          "@keyframes outline-animation": {
+                            "0%": { borderColor: "transparent" },
+                            "50%": { borderColor: "#008496" },
+                            "100%": { borderColor: "transparent" },
+                          },
+                        }),
+                      }
+                    : {
+                        color: page.id === active ? "white" : "#008496",
+                        borderBottom:
+                          page.id === active ? "2px solid #008496" : undefined,
+                        background: page.id === active ? "#008496" : undefined,
+                        padding: "0 10px",
+                      }
+                }
+                onClick={() => {
+                  setActive(page.id);
                 }}
-                onMouseEnter={() => {
-                  handleMouseEnter(page.content);
-                }}
+                onMouseEnter={handleMouseEnter}
               >
                 {page.show ? (
                   page.name
@@ -205,7 +251,7 @@ const Header: React.FC = () => {
             ))}
           </Box>
 
-          <Button color="inherit" sx={{ marginLeft: "16px", color: "#00838D" }}>
+          <Button color="inherit" sx={{ marginLeft: "16px", color: "#008496" }}>
             <Link
               to="/contact-us"
               style={{ textDecoration: "none", color: "inherit" }}
@@ -214,24 +260,20 @@ const Header: React.FC = () => {
             </Link>
           </Button>
           <LanguageSwitcher />
+          <CurrencySwitcher />
         </Box>
-
-        <Fade in={drawerOpen} timeout={100}>
-          <Typography variant="body1" sx={{ textAlign: "center" }}>
-            <Suspense fallback={<div>Loading...</div>}>
-              <TransitionGroup component={null}>
-                {drawerContent && (
-                  <CSSTransition timeout={900} classNames="fade">
-                    <div>{drawerContent}</div>
-                  </CSSTransition>
-                )}
-              </TransitionGroup>
-            </Suspense>
-          </Typography>
-        </Fade>
+        <Suspense fallback={<div>Loading...</div>}>
+          {pages.map((page) => {
+            if (active === page.id) {
+              return <div key={page.id}>{page.content}</div>;
+            }
+            return;
+          })}
+        </Suspense>
       </Box>
     </Drawer>
   );
+
   const renderBurger = (
     <Drawer
       anchor="left"
@@ -266,7 +308,7 @@ const Header: React.FC = () => {
               flexDirection: "column",
               alignItems: "flex-start",
               gap: 2,
-              color: "#00838D",
+              color: "#008496",
               mt: 2,
             }}
           >
@@ -287,7 +329,7 @@ const Header: React.FC = () => {
             ))}
           </Box>
 
-          <Button color="inherit" sx={{ color: "#00838D" }}>
+          <Button color="inherit" sx={{ color: "#008496" }}>
             <Link
               to="/contact-us"
               style={{ textDecoration: "none", color: "inherit" }}
@@ -297,6 +339,7 @@ const Header: React.FC = () => {
             ``
           </Button>
           <LanguageSwitcher />
+          <CurrencySwitcher />
         </Box>
         {typeof drawerContent === "string" ? (
           <Typography variant="body1" sx={{ textAlign: "center" }}>
@@ -315,7 +358,7 @@ const Header: React.FC = () => {
   return (
     <AppBar
       sx={{
-        backgroundColor: "#00838D",
+        backgroundColor: "#008496",
         zIndex: 1200,
         position: "sticky",
         top: 0,
@@ -379,6 +422,7 @@ const Header: React.FC = () => {
             {t("contactUs")}
           </Link>
           <LanguageSwitcher />
+          <CurrencySwitcher />
         </Button>
 
         <IconButton

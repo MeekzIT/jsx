@@ -45,7 +45,7 @@ body {
 
 .slick-prev,
 .slick-next {
-  background-color: #00838d; /* Set the background color to red */
+  background-color: #008496; /* Set the background color to red */
   border-radius: 50%; /* Make the arrow background circular, optional */
   height: 40px; /* Adjust the size of the arrows */
   width: 40px; /* Adjust the size of the arrows */
@@ -54,7 +54,7 @@ body {
 
 .slick-prev:hover,
 .slick-next:hover {
-  background-color: #00838d; /* Darken the background on hover */
+  background-color: #008496; /* Darken the background on hover */
 }
 
 .slick-prev:before,
@@ -64,7 +64,7 @@ body {
 
 .tooltip {
   padding: 5px 10px;
-  background-color: #00838d;
+  background-color: #008496;
   border-radius: 5px;
   color: white;
   line-height: 1.5;

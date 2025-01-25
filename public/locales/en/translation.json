@@ -24,5 +24,7 @@
   "config": "Your configuration",
   "orderResponse": "We received your order, we will contact you within 24 hours!",
   "gallery":"Gallery",
-  "partners":"Our Partners"
+  "partners":"Our Partners",
+  "home":"Home",
+  "toConstructor":"Go to constructor"
 }

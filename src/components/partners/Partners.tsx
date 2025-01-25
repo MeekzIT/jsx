@@ -38,7 +38,7 @@ const Partners = () => {
         padding: { xs: 0, md: "2" },
       }}
     >
-      <Typography variant="h3" color="#00838D" ml={2} mb={2}>
+      <Typography variant="h3" color="#008496" ml={2} mb={2}>
         {t("partners")}
       </Typography>
       <Slider {...settings}>

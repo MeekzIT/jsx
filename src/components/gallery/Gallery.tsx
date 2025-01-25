@@ -36,7 +36,7 @@ const GallerySmall = () => {
         padding: { xs: 0, md: "2" },
       }}
     >
-      <Typography variant="h3" sx={{ ml: 2, mt: 2, mb: 2, color: "#00838D" }}>
+      <Typography variant="h3" sx={{ ml: 2, mt: 2, mb: 2, color: "#008496" }}>
         {t("gallery")}
       </Typography>
       <Gallery

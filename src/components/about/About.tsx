@@ -59,7 +59,7 @@ const About = () => {
           pl: { xs: "0", md: "100px" },
         }}
       >
-        <AnimatedTitle variant="h4" sx={{ color: "#00838D" }}>
+        <AnimatedTitle variant="h4" sx={{ color: "#008496" }}>
           {language === "am"
             ? about.titleAm
             : language === "ru"

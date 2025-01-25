@@ -61,7 +61,7 @@ const ContactUs: React.FC = () => {
       <Typography
         variant="h4"
         align="center"
-        sx={{ marginRight: "10px", color: "#00838D" }}
+        sx={{ marginRight: "10px", color: "#008496" }}
         gutterBottom
       >
         {t("contactUs")}
@@ -70,7 +70,7 @@ const ContactUs: React.FC = () => {
       <Grid spacing={4} sx={{ margin: "10px 0" }} gap={2}>
         <Grid item xs={12} md={6}>
           <Box display="flex" alignItems="center" sx={{ mt: 2 }}>
-            <AccessTimeIcon sx={{ marginRight: "10px", color: "#00838D" }} />
+            <AccessTimeIcon sx={{ marginRight: "10px", color: "#008496" }} />
             <Typography>
               {t("workingDays")} : {t("mondayToSaturday")}. {t("workingHours")}{" "}
               : 09:00-18:00
@@ -79,20 +79,20 @@ const ContactUs: React.FC = () => {
         </Grid>
         <Grid item xs={12} md={6} sx={{ mt: 2 }}>
           <Box display="flex" alignItems="center">
-            <PhoneIcon sx={{ marginRight: "10px", color: "#00838D" }} />
+            <PhoneIcon sx={{ marginRight: "10px", color: "#008496" }} />
             <Typography>+374 77-14-54-04, +374 98-76-97-60</Typography>
           </Box>
         </Grid>
         <Grid item xs={12} md={6} sx={{ mt: 2 }}>
           <Box display="flex" alignItems="center">
-            <EmailIcon sx={{ marginRight: "10px", color: "#00838D" }} />
+            <EmailIcon sx={{ marginRight: "10px", color: "#008496" }} />
             <Typography>Email: info@jsxmachines.com</Typography>
           </Box>
         </Grid>
         <Grid item xs={12} md={6} sx={{ mt: 2 }}>
           <Box display="flex" alignItems="center">
-            <LocationOnIcon sx={{ marginRight: "10px", color: "#00838D" }} />
-            <Typography>Алек Манукян 11/1, Армения, Ереван</Typography>
+            <LocationOnIcon sx={{ marginRight: "10px", color: "#008496" }} />
+            <Typography>Алек Манукян 11/7, Армения, Ереван</Typography>
           </Box>
         </Grid>
       </Grid>
@@ -175,7 +175,7 @@ const ContactUs: React.FC = () => {
       </form>
       <SimpleDialog open={open} onClose={handleClose}>
         <Box sx={{ p: 2 }}>
-          <Typography variant="h3" sx={{ color: "#00838D" }}>
+          <Typography variant="h3" sx={{ color: "#008496" }}>
             {t("contactUsResponse")}
           </Typography>
         </Box>

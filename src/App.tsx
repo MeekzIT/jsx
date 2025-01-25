@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Helmet, HelmetProvider } from "react-helmet-async";
+
 import "./i18n";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -34,36 +36,41 @@ function App() {
   const theme = createTheme({
     palette: {
       primary: {
-        main: "#00838D",
+        main: "#008496",
       },
     },
   });
   return (
-    <ThemeProvider theme={theme}>
-      <Layout>
-        <Router>
-          <Header />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/self/:id" element={<Self />} />
-            <Route path="/module/:id" element={<Module />} />
-            <Route path="/equipment/:id" element={<Equipment />} />
-            <Route path="/board/:id" element={<Board />} />
-            <Route path="/spare/:id" element={<Spare />} />
-            <Route path="/constuctor/:id" element={<Constructor />} />
-            <Route path="/contact-us" element={<ContactUs />} />
-            <Route path={GALLERY_PAGE} element={<GalleryPage />} />
-            //mobile menu
-            <Route path={SELF_MOBILE} element={<SelfHeader />} />
-            <Route path={MODULE_MOBILE} element={<ModuleHeader />} />
-            <Route path={EQUIP_MOBILE} element={<EquipmentHeader />} />
-            <Route path={BOARD_MOBILE} element={<BoardHeader />} />
-            <Route path={SPARE_MOBILE} element={<SpareHeader />} />
-            <Route path={CONSTRUCTOR_MOBILE} element={<ConstructorHeader />} />
-          </Routes>
-        </Router>
-      </Layout>
-    </ThemeProvider>
+    <HelmetProvider>
+      <ThemeProvider theme={theme}>
+        <Layout>
+          <Router>
+            <Header />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/self/:id" element={<Self />} />
+              <Route path="/module/:id" element={<Module />} />
+              <Route path="/equipment/:id" element={<Equipment />} />
+              <Route path="/board/:id" element={<Board />} />
+              <Route path="/spare/:id" element={<Spare />} />
+              <Route path="/constuctor/:id" element={<Constructor />} />
+              <Route path="/contact-us" element={<ContactUs />} />
+              <Route path={GALLERY_PAGE} element={<GalleryPage />} />
+              //mobile menu
+              <Route path={SELF_MOBILE} element={<SelfHeader />} />
+              <Route path={MODULE_MOBILE} element={<ModuleHeader />} />
+              <Route path={EQUIP_MOBILE} element={<EquipmentHeader />} />
+              <Route path={BOARD_MOBILE} element={<BoardHeader />} />
+              <Route path={SPARE_MOBILE} element={<SpareHeader />} />
+              <Route
+                path={CONSTRUCTOR_MOBILE}
+                element={<ConstructorHeader />}
+              />
+            </Routes>
+          </Router>
+        </Layout>
+      </ThemeProvider>
+    </HelmetProvider>
   );
 }
 

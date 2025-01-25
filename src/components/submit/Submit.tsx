@@ -119,7 +119,7 @@ const Submit = ({ data, onSubmitOrder }: ISubmit) => {
         }}
       >
         <Box>
-          <Typography variant="h5" sx={{ color: "#00838D" }}>
+          <Typography variant="h5" sx={{ color: "#008496" }}>
             {t("config")}
           </Typography>
           {data ? (
@@ -128,7 +128,7 @@ const Submit = ({ data, onSubmitOrder }: ISubmit) => {
                 <Box key={i.item?.id}>
                   <Typography
                     variant="h6"
-                    sx={{ color: "#00838D" }}
+                    sx={{ color: "#008496" }}
                     gutterBottom
                   >
                     {language === "am"
@@ -164,7 +164,7 @@ const Submit = ({ data, onSubmitOrder }: ISubmit) => {
                 <Box key={i.service?.id}>
                   <Typography
                     variant="h6"
-                    sx={{ color: "#00838D" }}
+                    sx={{ color: "#008496" }}
                     gutterBottom
                   >
                     {language === "am"
@@ -197,7 +197,7 @@ const Submit = ({ data, onSubmitOrder }: ISubmit) => {
                 </Box>
               ))}
               <hr />
-              <Typography variant="h5" sx={{ color: "#00838D" }}>
+              <Typography variant="h5" sx={{ color: "#008496" }}>
                 {data.price} $
               </Typography>
             </Box>

@@ -25,7 +25,7 @@ export function SimpleDialog(props: SimpleDialogProps) {
         }}
       >
         <CloseIcon
-          sx={{ color: "#00838D", cursor: "pointer", pr: 2, pt: 1 }}
+          sx={{ color: "#008496", cursor: "pointer", pr: 2, pt: 1 }}
           onClick={handleClose}
         />
       </Box>

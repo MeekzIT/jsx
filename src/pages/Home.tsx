@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { Helmet } from "react-helmet-async";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { fetchAbout, fetchData } from "../store/slices/servicesSlice";
 import Loading from "../components/loading/Loading";
@@ -11,7 +12,7 @@ import Partners from "../components/partners/Partners";
 
 const Home = () => {
   const dispatch = useAppDispatch();
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const language = i18n.language;
   const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -27,6 +28,13 @@ const Home = () => {
 
   return (
     <>
+      <Helmet>
+        <title>{t("home")}</title>
+        <meta
+          name="description"
+          content="Добро пожаловать на главную страницу"
+        />
+      </Helmet>
       <Box
         sx={{
           height: "90vh",
@@ -119,7 +127,7 @@ const Home = () => {
                 <Typography
                   variant="h4"
                   sx={{
-                    color: "#00838D",
+                    color: "#008496",
                     fontSize: { xs: "1.5rem", md: "2rem" },
                   }}
                 >

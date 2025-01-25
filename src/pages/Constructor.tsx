@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { useParams } from "react-router-dom";
 import {
@@ -35,10 +35,15 @@ const Constructor = () => {
   const { i18n, t } = useTranslation();
   const language = i18n.language;
   const dispatch = useAppDispatch();
-
-  const { single, loading, error, service, priceData } = useAppSelector(
-    (state) => state.constr
-  );
+  const {
+    single,
+    loading,
+    error,
+    service,
+    priceData,
+    currentCurrency,
+    activeId,
+  } = useAppSelector((state) => state.constr);
   const [selectedData, setSelectedData] = useState<SelectedData>({
     variant: id,
     services: {},
@@ -59,6 +64,10 @@ const Constructor = () => {
       dispatch(fetchCurrency());
     }
   }, [dispatch, id]);
+
+  useEffect(() => {
+    dispatch(getDataPrice(selectedData));
+  }, [dispatch, selectedData]);
 
   useEffect(() => {
     single?.ConstuctorItems?.map((s: IConstuctorItems) => {
@@ -96,7 +105,10 @@ const Constructor = () => {
 
       single?.ConstuctorItems?.forEach((item: IConstuctorItems) => {
         if (item.require && item.ConstuctorItemOptions.length > 0) {
-          defaultSelections[item.id] = item.ConstuctorItemOptions[0].id;
+          defaultSelections[item.id] =
+            item.withValue && activeId
+              ? activeId
+              : item.ConstuctorItemOptions[0].id;
         }
       });
 
@@ -114,7 +126,9 @@ const Constructor = () => {
       service.ConstuctorOptionItems.forEach((item: IConstuctorOptionItems) => {
         if (item.require && item?.ConstuctorItemOptionItemOptions?.length > 0) {
           defaultServiceSelections[item.id] =
-            item.ConstuctorItemOptionItemOptions[0].id;
+            item.withValue && activeId
+              ? activeId
+              : item.ConstuctorItemOptionItemOptions[0].id;
         }
       });
 
@@ -145,9 +159,85 @@ const Constructor = () => {
     }
   }, [dispatch, single, service]);
 
-  useEffect(() => {
-    dispatch(getDataPrice(selectedData));
-  }, [dispatch, selectedData]);
+  const optios = useMemo(() => {
+    return (
+      single?.ConstuctorItems &&
+      single?.ConstuctorItems.map((i: IConstuctorItems) => {
+        const name =
+          language === "am"
+            ? i?.nameAm
+            : language === "ru"
+            ? i?.nameRu
+            : language === "en"
+            ? i?.nameEn
+            : i?.nameGe;
+
+        return i.require ? (
+          <RadioBox
+            key={i.id}
+            defaultValue={
+              i.withValue && activeId ? activeId : i.ConstuctorItemOptions[0].id
+            }
+            options={i?.ConstuctorItemOptions}
+            name={name}
+            onChange={(value, hasItems) =>
+              handleSelectionChange(i.id, Number(value), hasItems)
+            }
+          />
+        ) : (
+          <CheckboxBox
+            key={i.id}
+            options={i?.ConstuctorItemOptions}
+            name={name}
+            onChange={(value) => handleSelectionChange(i.id, value)}
+          />
+        );
+      })
+    );
+  }, [single?.ConstuctorItems, currentCurrency, activeId]);
+
+  const servicesOptios = useMemo(() => {
+    return service?.ConstuctorOptionItems.map((i: IConstuctorOptionItems) =>
+      i.require ? (
+        <RadioBox
+          key={i.id}
+          options={i?.ConstuctorItemOptionItemOptions}
+          defaultValue={
+            i.withValue && activeId
+              ? activeId
+              : i.ConstuctorItemOptionItemOptions[0].id
+          }
+          name={
+            language === "am"
+              ? i?.nameAm
+              : language === "ru"
+              ? i?.nameRu
+              : language === "en"
+              ? i?.nameEn
+              : i?.nameGe
+          }
+          onChange={(value) =>
+            handleSelectionServiceChange(i.id, Number(value))
+          }
+        />
+      ) : (
+        <CheckboxBox
+          key={i.id}
+          options={i?.ConstuctorItemOptionItemOptions}
+          name={
+            language === "am"
+              ? i?.nameAm
+              : language === "ru"
+              ? i?.nameRu
+              : language === "en"
+              ? i?.nameEn
+              : i?.nameGe
+          }
+          onChange={(value) => handleSelectionServiceChange(i.id, value)}
+        />
+      )
+    );
+  }, [service, currentCurrency, activeId]);
 
   const handleSelectionChange = (
     key: number,
@@ -178,7 +268,6 @@ const Constructor = () => {
   };
 
   const handleSubmit = () => {
-    console.log(selectedData, "selectedData");
     dispatch(getDataPrice(selectedData));
     setOpen(true);
   };
@@ -271,47 +360,16 @@ const Constructor = () => {
             ? single?.nameEn
             : single?.nameGe}
         </Typography>
-
         <Box
           sx={{
-            // flexGrow: 1,
             display: "flex",
             flexDirection: "column",
             height: "100%",
             gap: "20px",
             overflowY: "auto",
-            // paddingRight: "10px",
           }}
         >
-          {single?.ConstuctorItems &&
-            single?.ConstuctorItems.map((i: IConstuctorItems) => {
-              const name =
-                language === "am"
-                  ? i?.nameAm
-                  : language === "ru"
-                  ? i?.nameRu
-                  : language === "en"
-                  ? i?.nameEn
-                  : i?.nameGe;
-
-              return i.require ? (
-                <RadioBox
-                  key={i.id}
-                  options={i?.ConstuctorItemOptions}
-                  name={name}
-                  onChange={(value, hasItems) =>
-                    handleSelectionChange(i.id, Number(value), hasItems)
-                  }
-                />
-              ) : (
-                <CheckboxBox
-                  key={i.id}
-                  options={i?.ConstuctorItemOptions}
-                  name={name}
-                  onChange={(value) => handleSelectionChange(i.id, value)}
-                />
-              );
-            })}
+          {optios}
 
           {service && (
             <>
@@ -324,44 +382,7 @@ const Constructor = () => {
                   ? service?.nameEn
                   : service?.nameGe}
               </Typography>
-
-              {service?.ConstuctorOptionItems.map((i: IConstuctorOptionItems) =>
-                i.require ? (
-                  <RadioBox
-                    key={i.id}
-                    options={i?.ConstuctorItemOptionItemOptions}
-                    name={
-                      language === "am"
-                        ? i?.nameAm
-                        : language === "ru"
-                        ? i?.nameRu
-                        : language === "en"
-                        ? i?.nameEn
-                        : i?.nameGe
-                    }
-                    onChange={(value) =>
-                      handleSelectionServiceChange(i.id, Number(value))
-                    }
-                  />
-                ) : (
-                  <CheckboxBox
-                    key={i.id}
-                    options={i?.ConstuctorItemOptionItemOptions}
-                    name={
-                      language === "am"
-                        ? i?.nameAm
-                        : language === "ru"
-                        ? i?.nameRu
-                        : language === "en"
-                        ? i?.nameEn
-                        : i?.nameGe
-                    }
-                    onChange={(value) =>
-                      handleSelectionServiceChange(i.id, value)
-                    }
-                  />
-                )
-              )}
+              {servicesOptios}
             </>
           )}
         </Box>
@@ -370,12 +391,12 @@ const Constructor = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-around",
-            borderTop: "1px solid #00838D",
+            borderTop: "1px solid #008496",
             padding: "20px 0",
           }}
         >
           <Box>
-            <Typography variant="h5" sx={{ color: "#00838D" }}>
+            <Typography variant="h5" sx={{ color: "#008496" }}>
               {priceData?.price} $
             </Typography>
           </Box>
@@ -388,7 +409,7 @@ const Constructor = () => {
       </Box>
       <SimpleDialog open={open} onClose={handleClose}>
         <Box sx={{ p: 2 }}>
-          <Typography variant="h4" sx={{ color: "#00838D", mb: 2 }}>
+          <Typography variant="h4" sx={{ color: "#008496", mb: 2 }}>
             {language === "am"
               ? single?.nameAm
               : language === "ru"
@@ -408,7 +429,7 @@ const Constructor = () => {
       </SimpleDialog>
       <SimpleDialog open={openNitify} onClose={() => setOpenNitify(false)}>
         <Box sx={{ p: 2 }}>
-          <Typography variant="h3" sx={{ color: "#00838D" }}>
+          <Typography variant="h3" sx={{ color: "#008496" }}>
             {t("orderResponse")}
           </Typography>
         </Box>

@@ -15,6 +15,8 @@ interface ModuleState {
   priceData: PriceResponse | null;
   service: IConstuctorItemOptions | null;
   currency: Currency | null;
+  currentCurrency: string;
+  activeId: number | null;
   loading: boolean;
   error: string | null;
 }
@@ -24,6 +26,8 @@ const initialState: ModuleState = {
   single: null,
   service: null,
   priceData: null,
+  currentCurrency: "en",
+  activeId: null,
   loading: false,
   error: null,
   currency: null,
@@ -94,6 +98,15 @@ export const getDataPrice = createAsyncThunk<PriceResponse, SelectedData>(
     }
   }
 );
+export const getCurrentCurrency = createAsyncThunk<string, string>(
+  "constr/currentCurrency",
+  async (data) => data
+);
+
+export const setActive = createAsyncThunk<number | null, number | null>(
+  "constr/activeId",
+  async (data) => data
+);
 
 const constructorSlice = createSlice({
   name: "constr",
@@ -121,6 +134,12 @@ const constructorSlice = createSlice({
       })
       .addCase(getDataPrice.fulfilled, (state, action) => {
         state.priceData = action.payload;
+      })
+      .addCase(getCurrentCurrency.fulfilled, (state, action) => {
+        state.currentCurrency = action.payload;
+      })
+      .addCase(setActive.fulfilled, (state, action) => {
+        state.activeId = action.payload;
       })
       .addCase(fetchCurrency.fulfilled, (state, action) => {
         state.currency = action.payload;

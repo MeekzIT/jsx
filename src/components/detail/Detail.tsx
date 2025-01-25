@@ -1,5 +1,12 @@
 import { Box, Typography } from "@mui/material";
-import { Board, Equipment, Image, Module, Self, Spare } from "../../store/types";
+import {
+  Board,
+  Equipment,
+  Image,
+  Module,
+  Self,
+  Spare,
+} from "../../store/types";
 import ImageSlider from "../slider/Slider";
 import { useTranslation } from "react-i18next";
 import TextParcer from "../textParcer/TextParser";
@@ -19,7 +26,7 @@ const Detail = ({ data, images }: IDetailProps) => {
         <Typography
           variant="h2"
           sx={{
-            color: "#00838d",
+            color: "#008496",
             fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
             mb: 2,
           }}

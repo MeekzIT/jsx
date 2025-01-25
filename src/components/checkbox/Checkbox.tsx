@@ -53,7 +53,7 @@ export default function CheckboxBox({
   return (
     <FormControl sx={{ ml: 3 }} component="fieldset" variant="standard">
       <FormLabel sx={{ ml: 3 }}>
-        <Typography variant="h5" color="#00838D">
+        <Typography variant="h5" color="#008496">
           {name}
         </Typography>
       </FormLabel>
@@ -78,11 +78,9 @@ export default function CheckboxBox({
                     alignItems: "center",
                     mb: 2,
                     mt: 2,
-                    border: " 1px solid #00838D",
+                    border: " 1px solid #008496",
                     borderRadius: "10px",
                     p: 2,
-                    // maxHeight: "300px",
-                    // minWidth: "300px",
                   }}
                   className="ratioBox"
                 >
@@ -99,7 +97,7 @@ export default function CheckboxBox({
                     </Box>
                   )}
                   <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <Typography color="#00838D" variant="h6">
+                    <Typography color="#008496" variant="h6">
                       {language === "am"
                         ? i?.nameAm
                         : language === "ru"

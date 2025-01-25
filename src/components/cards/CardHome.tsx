@@ -30,7 +30,7 @@ export default function CardHome({ data }: ICardSmall) {
         <img src={data.image} alt={data.descAm} />
       </Box>
       <Box sx={{ width: "50%" }}>
-        <Typography variant="h3" sx={{ color: "#00838D" }}>
+        <Typography variant="h3" sx={{ color: "#008496" }}>
           {data.title}
         </Typography>
         <Slate

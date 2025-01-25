@@ -1,15 +1,21 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { Module } from "../../store/types";
 import ImageSlider from "../slider/Slider";
 import { useTranslation } from "react-i18next";
 import TextParcer from "../textParcer/TextParser";
+import { CONSTRUCTOR_MOBILE } from "../../assets/paths";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../hooks/hooks";
+import { setActive } from "../../store/slices/constructorSlice";
 
 interface IDetailProps {
   data: Module;
 }
 
 const DetailModule = ({ data }: IDetailProps) => {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const language = i18n.language;
 
   return (
@@ -60,7 +66,7 @@ const DetailModule = ({ data }: IDetailProps) => {
           <Typography
             variant="h2"
             sx={{
-              color: "#00838d",
+              color: "#008496",
               fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
               mb: 2,
             }}
@@ -73,6 +79,16 @@ const DetailModule = ({ data }: IDetailProps) => {
               ? data?.titleEn
               : data?.titleGe}
           </Typography>
+          {data.constId ? (
+            <Button
+              onClick={() => {
+                dispatch(setActive(data.constId));
+                navigate(CONSTRUCTOR_MOBILE + "/2");
+              }}
+            >
+              {t("toConstructor")}
+            </Button>
+          ) : undefined}
         </Box>
       </Box>
 

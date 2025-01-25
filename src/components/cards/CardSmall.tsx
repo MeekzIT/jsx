@@ -12,6 +12,8 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { CSSTransition } from "react-transition-group";
+import { useAppDispatch } from "../../hooks/hooks";
+import { setActive } from "../../store/slices/constructorSlice";
 
 interface ICardSmall {
   data: Self | Module | Equipment | Board | Spare | IConstructor;
@@ -22,6 +24,7 @@ interface ICardSmall {
 export default function CardSmall({ data, image, href }: ICardSmall) {
   const { i18n } = useTranslation();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const language = i18n.language;
   const [isHovered, setIsHovered] = useState(false);
 
@@ -50,7 +53,10 @@ export default function CardSmall({ data, image, href }: ICardSmall) {
     <CSSTransition in={isHovered} timeout={1000} classNames="card-hover">
       <Card
         sx={{ width: 300, cursor: "pointer" }}
-        onClick={() => navigate(`${href}${data.id}`)}
+        onClick={() => {
+          navigate(`${href}${data.id}`);
+          dispatch(setActive(null));
+        }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >

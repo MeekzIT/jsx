@@ -7,7 +7,7 @@ import {
   RadioGroup,
   Typography,
 } from "@mui/material";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import {
   IConstuctorItemOptionItemOptions,
   IConstuctorItemOptions,
@@ -17,6 +17,7 @@ import TooltipPrice from "../tooltip/Tooltip";
 
 interface RadioBoxProps {
   name: string;
+  defaultValue: number | undefined | null;
   options: IConstuctorItemOptions[] | IConstuctorItemOptionItemOptions[];
   onChange: (value: string, hasItems?: true) => void;
 }
@@ -27,9 +28,21 @@ function isIConstuctorItemOptions(
   return (option as IConstuctorItemOptions).ConstuctorOptionItems !== undefined;
 }
 
-export default function RadioBox({ name, options, onChange }: RadioBoxProps) {
+export default function RadioBox({
+  name,
+  options,
+  defaultValue,
+  onChange,
+}: RadioBoxProps) {
   const { i18n } = useTranslation();
   const language = i18n.language;
+  const [selectedValue, setSelectedValue] = useState<number | undefined | null>(
+    defaultValue
+  );
+
+  useEffect(() => {
+    setSelectedValue(defaultValue);
+  }, [defaultValue]);
 
   const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
     const selectedOption = options.find(
@@ -37,27 +50,27 @@ export default function RadioBox({ name, options, onChange }: RadioBoxProps) {
     );
 
     if (selectedOption && isIConstuctorItemOptions(selectedOption)) {
-      // If selectedOption is IConstuctorItemOptions and has items
       if (selectedOption.ConstuctorOptionItems?.length > 0) {
         onChange(event.target.value, true);
       } else {
         onChange(event.target.value);
       }
     } else {
-      // Handle case for IConstuctorItemOptionItemOptions or other logic if needed
       onChange(event.target.value);
     }
+
+    setSelectedValue(Number(event.target.value));
   };
 
   return (
     <FormControl sx={{ ml: 3 }}>
       <FormLabel sx={{ ml: 3 }}>
-        <Typography variant="h5" color="#00838D">
+        <Typography variant="h5" color="#008496">
           {name}
         </Typography>
       </FormLabel>
       <RadioGroup
-        defaultValue={options.length > 0 ? options[0].id : ""}
+        value={selectedValue}
         name="radio-buttons-group"
         onChange={handleRadioChange}
       >
@@ -75,7 +88,7 @@ export default function RadioBox({ name, options, onChange }: RadioBoxProps) {
                   alignItems: "center",
                   mb: 2,
                   mt: 2,
-                  border: "1px solid #00838D",
+                  border: "1px solid #008496",
                   borderRadius: "10px",
                   p: 2,
                 }}
@@ -94,7 +107,8 @@ export default function RadioBox({ name, options, onChange }: RadioBoxProps) {
                   </Box>
                 )}
                 <Box sx={{ display: "flex", alignItems: "center" }}>
-                  <Typography color="#00838D" variant="h6">
+                  <Typography color="#008496" variant="h6">
+                    {i.id}
                     {language === "am"
                       ? i.nameAm
                       : language === "ru"

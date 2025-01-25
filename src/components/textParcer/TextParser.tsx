@@ -40,7 +40,6 @@ export default function TextParcer({ data, background, color }: IParcer) {
   const renderLeaf = useCallback((props: any) => {
     return <Leaf {...props} />;
   }, []);
-  console.log(background, "background");
 
   return (
     <Slate editor={editor} initialValue={data}>

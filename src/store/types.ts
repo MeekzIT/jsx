@@ -53,6 +53,7 @@ export interface Module {
   imageRu: string;
   imageEn: string;
   imageGe: string;
+  constId: number;
   ModuleImages: Image[];
   createdAt: string;
   updatedAt: string;
@@ -120,6 +121,7 @@ interface IItem extends IIdentifiable, ITranslatableContent {
   image?: string;
   order?: number;
   require?: boolean;
+  withValue?: boolean;
 }
 
 export interface IConstuctorItemOptionItemOptions extends IItem {
@@ -197,7 +199,6 @@ export interface IPartner {
   createdAt: string;
   updatedAt: string;
 }
- 
 
 // ---
 

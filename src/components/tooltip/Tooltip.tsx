@@ -1,25 +1,24 @@
 import { useAppSelector } from "../../hooks/hooks";
-import { useTranslation } from "react-i18next";
 
 interface ITooltip {
   data: string;
 }
 
 const TooltipPrice = ({ data }: ITooltip) => {
-  const { i18n } = useTranslation();
-  const language = i18n.language;
+  const currentCurrency = localStorage.getItem("currency");
+
   const currency = useAppSelector((state) => state.constr.currency);
 
   if (!currency) return;
 
   const getPrice = (price: string) => {
-    if (language === "am") {
+    if (currentCurrency === "am") {
       return new Intl.NumberFormat("de-DE", {
         maximumSignificantDigits: 3,
         style: "currency",
         currency: "AMD",
       }).format(Math.round(Number(price) * currency?.AMD));
-    } else if (language === "ru") {
+    } else if (currentCurrency === "ru") {
       return new Intl.NumberFormat("de-DE", {
         style: "currency",
         currency: "RUB",
