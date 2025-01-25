@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Helmet, HelmetProvider } from "react-helmet-async";
+import { HelmetProvider } from "react-helmet-async";
 
 import "./i18n";
 import "slick-carousel/slick/slick.css";
@@ -14,10 +14,10 @@ import ContactUs from "./pages/ContactUs";
 import Layout from "./layout/footer/Footer";
 import Module from "./pages/Module";
 import { createTheme, ThemeProvider } from "@mui/material";
-import Spare from "./pages/Spare";
+// import Spare from "./pages/Spare";
 import BoardHeader from "./components/header-components/Board";
 import EquipmentHeader from "./components/header-components/Equipment";
-import SpareHeader from "./components/header-components/Spare";
+// import SpareHeader from "./components/header-components/Spare";
 import ConstructorHeader from "./components/header-components/Constructor";
 import ModuleHeader from "./components/header-components/Module";
 import SelfHeader from "./components/header-components/Self";
@@ -28,7 +28,7 @@ import {
   GALLERY_PAGE,
   MODULE_MOBILE,
   SELF_MOBILE,
-  SPARE_MOBILE,
+  // SPARE_MOBILE,
 } from "./assets/paths";
 import GalleryPage from "./pages/Gallery";
 
@@ -52,7 +52,7 @@ function App() {
               <Route path="/module/:id" element={<Module />} />
               <Route path="/equipment/:id" element={<Equipment />} />
               <Route path="/board/:id" element={<Board />} />
-              <Route path="/spare/:id" element={<Spare />} />
+              {/* <Route path="/spare/:id" element={<Spare />} /> */}
               <Route path="/constuctor/:id" element={<Constructor />} />
               <Route path="/contact-us" element={<ContactUs />} />
               <Route path={GALLERY_PAGE} element={<GalleryPage />} />
@@ -61,7 +61,7 @@ function App() {
               <Route path={MODULE_MOBILE} element={<ModuleHeader />} />
               <Route path={EQUIP_MOBILE} element={<EquipmentHeader />} />
               <Route path={BOARD_MOBILE} element={<BoardHeader />} />
-              <Route path={SPARE_MOBILE} element={<SpareHeader />} />
+              {/* <Route path={SPARE_MOBILE} element={<SpareHeader />} /> */}
               <Route
                 path={CONSTRUCTOR_MOBILE}
                 element={<ConstructorHeader />}

@@ -31,9 +31,9 @@ const LanguageSwitcher = lazy(
 const ConstructorHeader = lazy(
   () => import("../../components/header-components/Constructor")
 );
-const SpareHeader = lazy(
-  () => import("../../components/header-components/Spare")
-);
+// const SpareHeader = lazy(
+//   () => import("../../components/header-components/Spare")
+// );
 
 import {
   CONSTRUCTOR_MOBILE,
@@ -41,7 +41,7 @@ import {
   GALLERY_PAGE,
   MODULE_MOBILE,
   SELF_MOBILE,
-  SPARE_MOBILE,
+  // SPARE_MOBILE,
 } from "../../assets/paths";
 import GallerySmall from "../../components/gallery/Gallery";
 import { useTranslation } from "react-i18next";
@@ -85,13 +85,13 @@ const Header: React.FC = () => {
       content: <BoardHeader />,
       show: true,
     },
-    {
-      id: 5,
-      name: t("spare"),
-      content: <SpareHeader />,
-      mobilePath: SPARE_MOBILE,
-      show: true,
-    },
+    // {
+    //   id: 5,
+    //   name: t("spare"),
+    //   content: <SpareHeader />,
+    //   mobilePath: SPARE_MOBILE,
+    //   show: true,
+    // },
     {
       id: 6,
       name: t("gallery"),
