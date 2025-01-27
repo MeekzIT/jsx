@@ -29,7 +29,9 @@ const GalleryPage = () => {
         {t("gallery")}
       </Typography>
       <Gallery
-        images={data}
+        images={data
+          .filter((item) => item.order !== undefined && item.order !== null)
+          .sort((a, b) => a.order - b.order)}
         isSelected={false}
         onClick={(_, item) => {
           setOpen(true);
