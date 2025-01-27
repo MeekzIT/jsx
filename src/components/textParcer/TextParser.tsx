@@ -47,7 +47,7 @@ export default function TextParcer({ data, background, color }: IParcer) {
         className="editor-wrapper"
         style={{
           background: background ? background : "#fff",
-          padding: "20px 0",
+          padding: "20px 5px",
           color: color ? color : "black",
         }}
       >

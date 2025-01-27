@@ -130,6 +130,11 @@ export interface IConstuctorItemOptionItemOptions extends IItem {
   showIn: boolean;
   width: string;
   height: string;
+  order: number;
+  descAm: string;
+  descRu: string;
+  descEn: string;
+  descGe: string;
 }
 
 export interface IConstuctorOptionItems extends IItem {
@@ -144,6 +149,11 @@ export interface IConstuctorItemOptions extends IItem {
   showIn: boolean;
   width: string;
   height: string;
+  order: number;
+  descAm: string;
+  descRu: string;
+  descEn: string;
+  descGe: string;
   ConstuctorOptionItems: IConstuctorOptionItems[];
 }
 

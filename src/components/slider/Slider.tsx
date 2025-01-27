@@ -31,6 +31,11 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images }) => {
               setCurrent(img);
               setOpen(true);
             }}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
           >
             <img
               src={img.image}
