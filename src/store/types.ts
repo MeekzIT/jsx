@@ -119,7 +119,7 @@ interface IIdentifiable {
 interface IItem extends IIdentifiable, ITranslatableContent {
   id: number;
   image?: string;
-  order?: number;
+  order: number;
   require?: boolean;
   withValue?: boolean;
 }
@@ -159,6 +159,7 @@ export interface IConstuctorItemOptions extends IItem {
 
 export interface IConstuctorItems extends IItem {
   reletedId: number;
+  order: number;
   ConstuctorItemOptions: IConstuctorItemOptions[];
 }
 
