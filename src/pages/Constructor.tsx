@@ -176,7 +176,9 @@ const Constructor = () => {
           <RadioBox
             key={i.id}
             defaultValue={
-              i.withValue && activeId ? activeId : i.ConstuctorItemOptions[0]?.id
+              i.withValue && activeId
+                ? activeId
+                : i.ConstuctorItemOptions[0]?.id
             }
             options={i?.ConstuctorItemOptions}
             name={name}
@@ -197,46 +199,50 @@ const Constructor = () => {
   }, [single?.ConstuctorItems, currentCurrency, activeId]);
 
   const servicesOptios = useMemo(() => {
-    return service?.ConstuctorOptionItems.map((i: IConstuctorOptionItems) =>
-      i.require ? (
-        <RadioBox
-          key={i.id}
-          options={i?.ConstuctorItemOptionItemOptions}
-          defaultValue={
-            i.withValue && activeId
-              ? activeId
-              : i.ConstuctorItemOptionItemOptions[0]?.id
-          }
-          name={
-            language === "am"
-              ? i?.nameAm
-              : language === "ru"
-              ? i?.nameRu
-              : language === "en"
-              ? i?.nameEn
-              : i?.nameGe
-          }
-          onChange={(value) =>
-            handleSelectionServiceChange(i.id, Number(value))
-          }
-        />
-      ) : (
-        <CheckboxBox
-          key={i.id}
-          options={i?.ConstuctorItemOptionItemOptions}
-          name={
-            language === "am"
-              ? i?.nameAm
-              : language === "ru"
-              ? i?.nameRu
-              : language === "en"
-              ? i?.nameEn
-              : i?.nameGe
-          }
-          onChange={(value) => handleSelectionServiceChange(i.id, value)}
-        />
-      )
-    );
+    return service?.ConstuctorOptionItems.filter(
+      (item) => item.order !== undefined && item.order !== null
+    )
+      .sort((a, b) => a.order - b.order)
+      .map((i: IConstuctorOptionItems) =>
+        i.require ? (
+          <RadioBox
+            key={i.id}
+            options={i?.ConstuctorItemOptionItemOptions}
+            defaultValue={
+              i.withValue && activeId
+                ? activeId
+                : i.ConstuctorItemOptionItemOptions[0]?.id
+            }
+            name={
+              language === "am"
+                ? i?.nameAm
+                : language === "ru"
+                ? i?.nameRu
+                : language === "en"
+                ? i?.nameEn
+                : i?.nameGe
+            }
+            onChange={(value) =>
+              handleSelectionServiceChange(i.id, Number(value))
+            }
+          />
+        ) : (
+          <CheckboxBox
+            key={i.id}
+            options={i?.ConstuctorItemOptionItemOptions}
+            name={
+              language === "am"
+                ? i?.nameAm
+                : language === "ru"
+                ? i?.nameRu
+                : language === "en"
+                ? i?.nameEn
+                : i?.nameGe
+            }
+            onChange={(value) => handleSelectionServiceChange(i.id, value)}
+          />
+        )
+      );
   }, [service, currentCurrency, activeId]);
 
   const handleSelectionChange = (
