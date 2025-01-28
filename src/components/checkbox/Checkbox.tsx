@@ -104,7 +104,13 @@ export default function CheckboxBox({
                     i?.descGe === defaultText ? (
                       <div>
                         {i.image !== null && (
-                          <Box>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                          >
                             <img
                               src={i.image}
                               alt={i.nameEn}
@@ -156,7 +162,13 @@ export default function CheckboxBox({
                       >
                         <div>
                           {i.image !== null && (
-                            <Box>
+                            <Box
+                              sx={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
                               <img
                                 src={i.image}
                                 alt={i.nameEn}

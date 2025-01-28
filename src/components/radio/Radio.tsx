@@ -119,7 +119,13 @@ export default function RadioBox({
                   i?.descGe === defaultText ? (
                     <div>
                       {i.image && (
-                        <Box>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
                           <img
                             src={i.image}
                             alt={i.nameEn}
@@ -170,7 +176,13 @@ export default function RadioBox({
                     >
                       <div>
                         {i.image && (
-                          <Box>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                          >
                             <img
                               src={i.image}
                               alt={i.nameEn}
