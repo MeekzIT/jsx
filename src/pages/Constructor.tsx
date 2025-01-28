@@ -176,7 +176,7 @@ const Constructor = () => {
           <RadioBox
             key={i.id}
             defaultValue={
-              i.withValue && activeId ? activeId : i.ConstuctorItemOptions[0].id
+              i.withValue && activeId ? activeId : i.ConstuctorItemOptions[0]?.id
             }
             options={i?.ConstuctorItemOptions}
             name={name}
