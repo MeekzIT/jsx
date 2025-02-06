@@ -39,7 +39,7 @@ export default function CheckboxBox({
   const defaultSelectedId = firstItem?.id ?? null;
 
   const [selectedValues, setSelectedValues] = useState<number[]>(
-    defaultSelectedId !== null ? [defaultSelectedId] : []
+    defaultSelectedId !== null ? [] : []
   );
 
   const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -59,7 +59,7 @@ export default function CheckboxBox({
     setSelectedValues(updatedSelectedValues);
     onChange(updatedSelectedValues); // Pass updated values back to the parent
   };
- 
+
   return (
     <FormControl sx={{ ml: 3 }} component="fieldset" variant="standard">
       <FormLabel sx={{ ml: 3 }}>
