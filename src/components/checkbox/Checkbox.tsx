@@ -157,6 +157,7 @@ export default function CheckboxBox({
                             ) : i?.descGe === defaultText ? undefined : (
                               <TextParcer data={JSON.parse(i?.descGe)} />
                             )}
+                            <TooltipPrice data={i.price} />
                           </Box>
                         }
                       >
