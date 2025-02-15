@@ -72,25 +72,34 @@ const Constructor = () => {
   useEffect(() => {
     single?.ConstuctorItems?.map((s: IConstuctorItems) => {
       const item = s.ConstuctorItemOptions;
+
       item.map((i) => {
-        if (i.showIn && !i.ConstuctorOptionItems.length) {
-          setSelectedImages((prevData) => {
-            return {
-              ...prevData,
-              service: [
-                ...prevData.service,
-                { image: i.image, width: i.width, height: i.height },
-              ],
-            };
-          });
-        }
+        // if (
+        //   i.showIn &&
+        //   !i.ConstuctorOptionItems.length &&
+        //   !hasData &&
+        //   i.id !== selectedOption
+        // ) {
+        //   console.log(selectedData, s, hasData, "111");
+
+        //   setSelectedImages((prevData) => {
+        //     return {
+        //       ...prevData,
+        //       service: [
+        //         ...prevData.service,
+        //         { id: s.id, image: i.image, width: i.width, height: i.height },
+        //       ],
+        //     };
+        //   });
+        // }
+
         if (i.showIn && i.id == selectedOption) {
           setSelectedImages((prevData) => {
             return {
               ...prevData,
               option: [
                 ...prevData.service,
-                { image: i.image, width: i.width, height: i.height },
+                { id: s.id, image: i.image, width: i.width, height: i.height },
               ],
             };
           });
@@ -98,6 +107,36 @@ const Constructor = () => {
       });
     });
   }, [single, selectedOption]);
+
+  // useEffect(() => {
+  //   single?.ConstuctorItems?.map((s: IConstuctorItems) => {
+  //     const item = s.ConstuctorItemOptions;
+  //     console.log(2, selectedData, "2222");
+
+  //     const hasData = Object.keys(selectedData).find((o) => o == s.id);
+
+  //     console.log(s, Object.keys(selectedData), hasData, "111");
+  //     if (hasData) return;
+
+  //     item.map((i) => {
+  //       if (
+  //         i.showIn &&
+  //         !i.ConstuctorOptionItems.length
+  //         // !hasData &&
+  //       ) {
+  //         setSelectedImages((prevData) => {
+  //           return {
+  //             ...prevData,
+  //             service: [
+  //               ...prevData.service,
+  //               { id: s.id, image: i.image, width: i.width, height: i.height },
+  //             ],
+  //           };
+  //         });
+  //       }
+  //     });
+  //   });
+  // }, [single, selectedData]);
 
   useEffect(() => {
     if (single?.ConstuctorItems) {
@@ -284,6 +323,7 @@ const Constructor = () => {
 
   if (loading) return <Loading />;
   if (error) return <div>Error: {error}</div>;
+  console.log(selectedImages, "single");
 
   return (
     <Box
