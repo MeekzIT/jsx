@@ -70,42 +70,57 @@ const Constructor = () => {
   }, [dispatch, selectedData]);
 
   useEffect(() => {
-    single?.ConstuctorItems?.map((s: IConstuctorItems) => {
-      const item = s.ConstuctorItemOptions;
+    single?.ConstuctorItems?.filter(
+      (item) => item.order !== undefined && item.order !== null
+    )
+      .sort((a, b) => a.order - b.order)
+      .map((s: IConstuctorItems) => {
+        const item = s.ConstuctorItemOptions.filter(
+          (item) => item.order !== undefined && item.order !== null
+        ).sort((a, b) => a.order - b.order);
 
-      item.map((i) => {
-        // if (
-        //   i.showIn &&
-        //   !i.ConstuctorOptionItems.length &&
-        //   !hasData &&
-        //   i.id !== selectedOption
-        // ) {
-        //   console.log(selectedData, s, hasData, "111");
+        item
+          .filter((item) => item.order !== undefined && item.order !== null)
+          .sort((a, b) => a.order - b.order)
+          .map((i) => {
+            // if (
+            //   i.showIn &&
+            //   !i.ConstuctorOptionItems.length &&
+            //   !hasData &&
+            //   i.id !== selectedOption
+            // ) {
+            //   console.log(selectedData, s, hasData, "111");
 
-        //   setSelectedImages((prevData) => {
-        //     return {
-        //       ...prevData,
-        //       service: [
-        //         ...prevData.service,
-        //         { id: s.id, image: i.image, width: i.width, height: i.height },
-        //       ],
-        //     };
-        //   });
-        // }
+            //   setSelectedImages((prevData) => {
+            //     return {
+            //       ...prevData,
+            //       service: [
+            //         ...prevData.service,
+            //         { id: s.id, image: i.image, width: i.width, height: i.height },
+            //       ],
+            //     };
+            //   });
+            // }
 
-        if (i.showIn && i.id == selectedOption) {
-          setSelectedImages((prevData) => {
-            return {
-              ...prevData,
-              option: [
-                ...prevData.service,
-                { id: s.id, image: i.image, width: i.width, height: i.height },
-              ],
-            };
+            if (i.showIn && i.id == selectedOption) {
+              setSelectedImages((prevData) => {
+                return {
+                  ...prevData,
+                  option: [
+                    ...prevData.service,
+                    {
+                      id: i.id,
+                      image: i.image,
+                      width: i.width,
+                      height: i.height,
+                      name: i.nameRu,
+                    },
+                  ],
+                };
+              });
+            }
           });
-        }
       });
-    });
   }, [single, selectedOption]);
 
   // useEffect(() => {
@@ -142,14 +157,20 @@ const Constructor = () => {
     if (single?.ConstuctorItems) {
       const defaultSelections: { [key: number]: number | number[] } = {};
 
-      single?.ConstuctorItems?.forEach((item: IConstuctorItems) => {
-        if (item.require && item.ConstuctorItemOptions.length > 0) {
-          defaultSelections[item.id] =
-            item.withValue && activeId
-              ? activeId
-              : item.ConstuctorItemOptions[0].id;
-        }
-      });
+      single?.ConstuctorItems?.filter(
+        (item) => item.order !== undefined && item.order !== null
+      )
+        .sort((a, b) => a.order - b.order)
+        .forEach((item: IConstuctorItems) => {
+          if (item.require && item.ConstuctorItemOptions.length > 0) {
+            defaultSelections[item.id] =
+              item.withValue && activeId
+                ? activeId
+                : item.ConstuctorItemOptions.filter(
+                    (item) => item.order !== undefined && item.order !== null
+                  ).sort((a, b) => a.order - b.order)[0].id;
+          }
+        });
 
       setSelectedData((prevState) => ({
         ...prevState,
@@ -162,14 +183,23 @@ const Constructor = () => {
     if (service?.ConstuctorOptionItems) {
       const defaultServiceSelections: { [key: number]: number | number[] } = {};
 
-      service.ConstuctorOptionItems.forEach((item: IConstuctorOptionItems) => {
-        if (item.require && item?.ConstuctorItemOptionItemOptions?.length > 0) {
-          defaultServiceSelections[item.id] =
-            item.withValue && activeId
-              ? activeId
-              : item.ConstuctorItemOptionItemOptions[0]?.id;
-        }
-      });
+      service.ConstuctorOptionItems.filter(
+        (item) => item.order !== undefined && item.order !== null
+      )
+        .sort((a, b) => a.order - b.order)
+        .forEach((item: IConstuctorOptionItems) => {
+          if (
+            item.require &&
+            item?.ConstuctorItemOptionItemOptions?.length > 0
+          ) {
+            defaultServiceSelections[item.id] =
+              item.withValue && activeId
+                ? activeId
+                : item.ConstuctorItemOptionItemOptions.filter(
+                    (item) => item.order !== undefined && item.order !== null
+                  ).sort((a, b) => a.order - b.order)[0]?.id;
+          }
+        });
 
       setSelectedData((prevState) => ({
         ...prevState,
@@ -187,9 +217,11 @@ const Constructor = () => {
   useEffect(() => {
     if (!service && single?.ConstuctorItems) {
       single.ConstuctorItems?.forEach((s) => {
-        const itemWithOptions = s.ConstuctorItemOptions.find(
-          (i) => i.ConstuctorOptionItems.length > 0
-        );
+        const itemWithOptions = s.ConstuctorItemOptions.filter(
+          (item) => item.order !== undefined && item.order !== null
+        )
+          .sort((a, b) => a.order - b.order)
+          .find((i) => i.ConstuctorOptionItems.length > 0);
         if (itemWithOptions) {
           setSelectedOption(itemWithOptions.id);
           dispatch(fetchSingleService(String(itemWithOptions.id)));
@@ -201,39 +233,49 @@ const Constructor = () => {
   const optios = useMemo(() => {
     return (
       single?.ConstuctorItems &&
-      single?.ConstuctorItems.map((i: IConstuctorItems) => {
-        const name =
-          language === "am"
-            ? i?.nameAm
-            : language === "ru"
-            ? i?.nameRu
-            : language === "en"
-            ? i?.nameEn
-            : i?.nameGe;
+      single?.ConstuctorItems.filter(
+        (item) => item.order !== undefined && item.order !== null
+      )
+        .sort((a, b) => a.order - b.order)
+        .map((i: IConstuctorItems) => {
+          const name =
+            language === "am"
+              ? i?.nameAm
+              : language === "ru"
+              ? i?.nameRu
+              : language === "en"
+              ? i?.nameEn
+              : i?.nameGe;
 
-        return i.require ? (
-          <RadioBox
-            key={i.id}
-            defaultValue={
-              i.withValue && activeId
-                ? activeId
-                : i.ConstuctorItemOptions[0]?.id
-            }
-            options={i?.ConstuctorItemOptions}
-            name={name}
-            onChange={(value, hasItems) =>
-              handleSelectionChange(i.id, Number(value), hasItems)
-            }
-          />
-        ) : (
-          <CheckboxBox
-            key={i.id}
-            options={i?.ConstuctorItemOptions}
-            name={name}
-            onChange={(value) => handleSelectionChange(i.id, value)}
-          />
-        );
-      })
+          return i.require ? (
+            <RadioBox
+              key={i.id}
+              defaultValue={
+                i.withValue && activeId
+                  ? activeId
+                  : i.ConstuctorItemOptions.filter(
+                      (item) => item.order !== undefined && item.order !== null
+                    ).sort((a, b) => a.order - b.order)[0]?.id
+              }
+              options={i?.ConstuctorItemOptions.filter(
+                (item) => item.order !== undefined && item.order !== null
+              ).sort((a, b) => a.order - b.order)}
+              name={name}
+              onChange={(value, hasItems) =>
+                handleSelectionChange(i.id, Number(value), hasItems)
+              }
+            />
+          ) : (
+            <CheckboxBox
+              key={i.id}
+              options={i?.ConstuctorItemOptions.filter(
+                (item) => item.order !== undefined && item.order !== null
+              ).sort((a, b) => a.order - b.order)}
+              name={name}
+              onChange={(value) => handleSelectionChange(i.id, value)}
+            />
+          );
+        })
     );
   }, [single?.ConstuctorItems, currentCurrency, activeId]);
 
@@ -250,7 +292,9 @@ const Constructor = () => {
             defaultValue={
               i.withValue && activeId
                 ? activeId
-                : i.ConstuctorItemOptionItemOptions[0]?.id
+                : i.ConstuctorItemOptionItemOptions.filter(
+                    (item) => item.order !== undefined && item.order !== null
+                  ).sort((a, b) => a.order - b.order)[0]?.id
             }
             name={
               language === "am"
@@ -323,7 +367,6 @@ const Constructor = () => {
 
   if (loading) return <Loading />;
   if (error) return <div>Error: {error}</div>;
-  console.log(selectedImages, "single");
 
   return (
     <Box

@@ -75,7 +75,6 @@ export default function RadioBox({
 
     setSelectedValue(Number(event.target.value));
   };
-  console.log(options, initialDefaultValue, selectedValue, "defaultSelectedId");
 
   return (
     <FormControl sx={{ ml: 3 }}>

@@ -131,7 +131,6 @@ export default function CheckboxBox({
                               ? i?.nameEn
                               : i?.nameGe}
                           </Typography>
-
                           <TooltipPrice data={i.price} />
                         </Box>
                       </div>
@@ -190,7 +189,6 @@ export default function CheckboxBox({
                                 ? i?.nameEn
                                 : i?.nameGe}
                             </Typography>
-
                             <TooltipPrice data={i.price} />
                           </Box>
                         </div>
