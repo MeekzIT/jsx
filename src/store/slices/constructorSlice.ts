@@ -63,10 +63,12 @@ export const fetchCurrency = createAsyncThunk<Currency>(
   "constr/fetchCurrency",
   async () => {
     const response = await axios.get(
-      "https://new.yerevanhouse.net/api/currency"
+      "https://v6.exchangerate-api.com/v6/c071d4de3c3d8f6d84a2b9dd/latest/USD"
     );
+
     if (response) {
-      return response.data;
+      console.log(response.data.conversion_rates, "111111");
+      return response.data.conversion_rates;
     } else {
       throw new Error("Failed to fetch single service");
     }
